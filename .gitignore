@@ -102,3 +102,11 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Clion file
+.idea/
+cmake-build-debug/
+
+# Commitizen file
+package.json
+package-lock.json
