@@ -36,6 +36,7 @@ void List<T>::addNode() {
     tail = newNode;
     if(head == nullptr) {
         head = newNode;
+        head->setPrior(nullptr);
     }
     ++ size;
 }
@@ -57,8 +58,8 @@ List<T>::~List() {
     }
     delete ptr;
     size = 0;
-    ptr = nullptr;
-    ptr_ = nullptr;
+//    ptr = nullptr;
+//    ptr_ = nullptr;
 }
 
 template<typename T>

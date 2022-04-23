@@ -160,8 +160,9 @@ istream &operator>>(istream &in, User &right) {
     return in;
 }
 
-ostream &operator<<(ostream &out, User &right) {
-    out << right.name << '\t' << right.sex << '\t' << right.phoneNum << "  " << right.address
-        << '\t' << right.postalCode << '\t' << right.eMail << '\t' << right.QQNum << '\t' << right.type;
+ostream &operator<<(ostream &out, const User &right) {
+    out << right.getName() << '\t' << right.getSex() << '\t' << right.getPhoneNum() << "  " << right.getAddress()
+        << '\t' << right.getPostalCode() << '\t' << right.getEMail() << '\t' << right.getQqNum() << '\t' << right.getType();
+    out << endl;
     return out;
 }

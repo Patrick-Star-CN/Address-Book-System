@@ -22,9 +22,11 @@ public:
 
     void setPrior(ListNode *prior);
 
-    friend istream &operator>>(istream &in, ListNode<T> &right);
+    template<typename T_>
+    friend istream &operator>>(istream &in, ListNode<T_> &right);
 
-    friend ostream &operator<<(ostream &out, ListNode<T> &right);
+    template<typename T_>
+    friend ostream &operator<<(ostream &out, ListNode<T_> &right);
 
 private:
     T data;
