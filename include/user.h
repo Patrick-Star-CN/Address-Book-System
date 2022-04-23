@@ -51,6 +51,8 @@ public:
 
     friend istream &operator>>(istream &in, User &right);
 
+    friend ostream &operator<<(ostream &out, User &right);
+
 private:
     string name;
     string sex;

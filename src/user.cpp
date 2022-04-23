@@ -84,7 +84,7 @@ istream &operator>>(istream &in, User &right) {
     string sex;
     cout << "请输入" << right.name << "的性别：";
     while (cin >> sex) {
-        if (sex == "男" || sex == "女") {
+        if (sex == "男" || sex == "女" || sex == "male" || sex == "female") {
             right.setSex(sex);
             break;
         } else {
@@ -115,13 +115,16 @@ istream &operator>>(istream &in, User &right) {
     string postalCode;
     cout << "请输入" << right.name << "的邮政编码（输入0代表为留空）：";
     while (cin >> postalCode) {
-        if (regex_match(postalCode, regex("^[0-9]{6}")) || postalCode == "") {
+        if (regex_match(postalCode, regex("^[0-9]{6}"))) {
             right.setPostalCode(postalCode);
             break;
+        } else if(postalCode == "0") {
+            right.setPostalCode("");
+            break;
         } else {
-            cout << "输入的邮政编码格式非法，请重新输入：";
+                cout << "输入的邮政编码格式非法，请重新输入：";
+            }
         }
-    }
 
     string eMail;
     cout << "请输入" << right.name << "的电子邮箱（输入0代表为留空）：";
@@ -154,4 +157,11 @@ istream &operator>>(istream &in, User &right) {
     string type;
     cout << "请输入" << right.name << "的类型：";
     cin >> right.type;
+    return in;
+}
+
+ostream &operator<<(ostream &out, User &right) {
+    out << right.name << '\t' << right.sex << '\t' << right.phoneNum << "  " << right.address
+        << '\t' << right.postalCode << '\t' << right.eMail << '\t' << right.QQNum << '\t' << right.type;
+    return out;
 }
