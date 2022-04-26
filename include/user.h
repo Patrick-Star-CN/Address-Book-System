@@ -7,62 +7,61 @@
 #include <string>
 #include <iostream>
 #include <regex>
-using namespace std;
 class User {
 public:
-    const string &getName() const;
+    const std::string &getName() const;
 
-    void setName(const string &name);
+    void setName(const std::string &name);
 
-    const string &getSex() const;
+    const std::string &getSex() const;
 
-    void setSex(const string &sex);
+    void setSex(const std::string &sex);
 
-    const string &getPhoneNum() const;
+    const std::string &getPhoneNum() const;
 
-    void setPhoneNum(const string &phoneNum);
+    void setPhoneNum(const std::string &phoneNum);
 
-    const string &getAddress() const;
+    const std::string &getAddress() const;
 
-    void setAddress(const string &address);
+    void setAddress(const std::string &address);
 
-    const string &getPostalCode() const;
+    const std::string &getPostalCode() const;
 
-    void setPostalCode(const string &postalCode);
+    void setPostalCode(const std::string &postalCode);
 
-    const string &getEMail() const;
+    const std::string &getEMail() const;
 
-    void setEMail(const string &eMail);
+    void setEMail(const std::string &eMail);
 
-    const string &getQqNum() const;
+    const std::string &getQqNum() const;
 
-    void setQqNum(const string &qqNum);
+    void setQqNum(const std::string &qqNum);
 
-    const string &getType() const;
+    const std::string &getType() const;
 
-    void setType(const string &type);
+    void setType(const std::string &type);
 
-    User(const string &name, const string &sex, const string &phoneNum, const string &address, const string &zipCode,
-         const string &eMail, const string &qqNum, const string &type);
+    User(std::string name, std::string sex, std::string phoneNum, std::string address, std::string zipCode,
+         std::string eMail, std::string qqNum, std::string type);
 
     User();
 
-    User(const string &phoneNum);
+    User(const std::string &phoneNum);
 
     virtual ~User();
 
-    friend istream &operator>>(istream &in, User &right);
+    friend std::istream &operator>>(std::istream &in, User &right);
 
-    friend ostream &operator<<(ostream &out, const User &right);
+    friend std::ostream &operator<<(std::ostream &out, const User &right);
 
 private:
-    string name;
-    string sex;
-    string phoneNum;
-    string address;
-    string postalCode;
-    string eMail;
-    string QQNum;
-    string type;
+    std::string name;
+    std::string sex;
+    std::string phoneNum;
+    std::string address;
+    std::string postalCode;
+    std::string eMail;
+    std::string QQNum;
+    std::string type;
 };
 #endif //PROJECT_ABS_USER_H

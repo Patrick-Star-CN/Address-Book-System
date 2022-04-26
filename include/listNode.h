@@ -6,7 +6,6 @@
 #define PROJECT_ABS_LISTNODE_H
 
 #include <iostream>
-using namespace std;
 template <typename T>
 class ListNode {
 public:
@@ -27,10 +26,10 @@ public:
     void setPrior(ListNode *prior);
 
     template<typename T_>
-    friend istream &operator>>(istream &in, ListNode<T_> &right);
+    friend std::istream &operator>>(std::istream &in, ListNode<T_> &right);
 
     template<typename T_>
-    friend ostream &operator<<(ostream &out, const ListNode<T_> &right);
+    friend std::ostream &operator<<(std::ostream &out, const ListNode<T_> &right);
 
 private:
     T data;
@@ -69,12 +68,15 @@ void ListNode<T>::setPrior(ListNode *prior) {
 }
 
 template<typename T>
-istream &operator>>(istream &in, ListNode<T> &right) {
-    return in >> right.getData();
+std::istream &operator>>(std::istream &in, ListNode<T> &right) {
+    T temp = T();
+    in >> temp;
+    right.setData(temp);
+    return in;
 }
 
 template<typename T>
-ostream &operator<<(ostream &out, const ListNode<T> &right) {
+std::ostream &operator<<(std::ostream &out, const ListNode<T> &right) {
     return out << right.getData();
 }
 

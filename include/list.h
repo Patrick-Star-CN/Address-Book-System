@@ -6,7 +6,6 @@
 #define PROJECT_ABS_LIST_H
 
 #include "../include/listNode.h"
-using namespace std;
 template <typename T>
 class List {
 public:
@@ -14,11 +13,17 @@ public:
 
     ~List();
 
+    int getSize();
+
     void addNode();
 
-
+    void delNode(int);
 
     ListNode<T> &operator[](int);
+
+    //virtual void delNode(std::string) = 0;
+
+    //virtual ListNode<T> &fetchNode(std::string) = 0;
 
 protected:
     int size;
@@ -30,11 +35,13 @@ template<typename T>
 void List<T>::addNode() {
     ListNode<T> *newNode = new ListNode<T>();
     T newData;
-    cin >> newData;
+    std::cin >> newData;
     newNode->setData(newData);
     newNode->setNext(nullptr);
     newNode->setPrior(tail);
-    tail->setNext(newNode);
+    if(tail) {
+        tail->setNext(newNode);
+    }
     tail = newNode;
     if(head == nullptr) {
         head = newNode;
@@ -78,6 +85,41 @@ ListNode<T> &List<T>::operator[](int index) {
     return *ptr;
 }
 
+template<typename T>
+void List<T>::delNode(int index) {
+    ListNode<T> *ptr = head;
+    ListNode<T> *ptr_ = nullptr;
+    int size_ = 0;
+    if(index >= size) {
+        index = size - 1;
+    }
+    while(size_ < index) {
+        ptr_ = ptr;
+        ptr = ptr->getNext();
+        ++ size_;
+    }
+    if(ptr_ && ptr->getNext()) {
+        ptr_->setNext(ptr->getNext());
+        ptr->getNext()->setPrior(ptr_);
+    } else if(ptr_) {
+        ptr_->setNext(nullptr);
+        tail = ptr_;
+    } else if(ptr->getNext()) {
+        ptr->getNext()->setPrior(nullptr);
+        head = ptr->getNext();
+    } else {
+        tail = nullptr;
+        head = nullptr;
+    }
+    -- size;
+    delete ptr;
+    ptr = nullptr;
+}
+
+template<typename T>
+int List<T>::getSize() {
+    return size;
+}
 
 
 #endif //PROJECT_ABS_LIST_H
