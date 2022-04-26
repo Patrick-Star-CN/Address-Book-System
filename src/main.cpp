@@ -1,15 +1,11 @@
 #include "../include/admin.h"
-#include "../include/list.h"
-
-
+#include "../include/userList.h"
 
 int main() {
-    Admin admin;
-    List<User> list;
-    list.addNode();
+    UserList list;
     list.addNode();
     cout << list[0];
-    cout << list[1];
+    cout << list.fetchNode("1");
     system("pause");
     return 0;
 }

@@ -10,6 +10,10 @@ using namespace std;
 template <typename T>
 class ListNode {
 public:
+    ListNode();
+
+    ListNode(T data);
+
     T getData() const;
 
     void setData(T data);
@@ -26,7 +30,7 @@ public:
     friend istream &operator>>(istream &in, ListNode<T_> &right);
 
     template<typename T_>
-    friend ostream &operator<<(ostream &out, ListNode<T_> &right);
+    friend ostream &operator<<(ostream &out, const ListNode<T_> &right);
 
 private:
     T data;
@@ -70,8 +74,14 @@ istream &operator>>(istream &in, ListNode<T> &right) {
 }
 
 template<typename T>
-ostream &operator<<(ostream &out, ListNode<T> &right) {
+ostream &operator<<(ostream &out, const ListNode<T> &right) {
     return out << right.getData();
 }
+
+template<typename T>
+ListNode<T>::ListNode(): next(nullptr), prior(nullptr) {}
+
+template<typename T>
+ListNode<T>::ListNode(T data): next(nullptr), prior(nullptr), data(data) {}
 
 #endif //PROJECT_ABS_LISTNODE_H

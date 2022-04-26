@@ -47,6 +47,8 @@ public:
 
     User();
 
+    User(const string &phoneNum);
+
     virtual ~User();
 
     friend istream &operator>>(istream &in, User &right);

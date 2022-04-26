@@ -16,9 +16,11 @@ public:
 
     void addNode();
 
-    ListNode<T> &operator[](int index);
 
-private:
+
+    ListNode<T> &operator[](int);
+
+protected:
     int size;
     ListNode<T> *head;
     ListNode<T> *tail;
@@ -58,19 +60,24 @@ List<T>::~List() {
     }
     delete ptr;
     size = 0;
-//    ptr = nullptr;
-//    ptr_ = nullptr;
+    ptr = nullptr;
+    ptr_ = nullptr;
 }
 
 template<typename T>
 ListNode<T> &List<T>::operator[](int index) {
     ListNode<T> *ptr = head;
     int size_ = 0;
+    if(index >= size) {
+        index = size - 1;
+    }
     while(size_ < index) {
         ptr = ptr->getNext();
         ++ size_;
     }
     return *ptr;
 }
+
+
 
 #endif //PROJECT_ABS_LIST_H

@@ -166,3 +166,5 @@ ostream &operator<<(ostream &out, const User &right) {
     out << endl;
     return out;
 }
+
+User::User(const string &phoneNum) : phoneNum(phoneNum) {}
