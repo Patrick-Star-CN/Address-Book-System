@@ -15,6 +15,8 @@ public:
 
     T getData() const;
 
+    T &getData();
+
     void setData(T data);
 
     ListNode *getNext() const;
@@ -85,5 +87,10 @@ ListNode<T>::ListNode(): next(nullptr), prior(nullptr) {}
 
 template<typename T>
 ListNode<T>::ListNode(T data): next(nullptr), prior(nullptr), data(data) {}
+
+template<typename T>
+T &ListNode<T>::getData() {
+    return data;
+}
 
 #endif //PROJECT_ABS_LISTNODE_H

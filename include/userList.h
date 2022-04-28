@@ -115,52 +115,53 @@ std::string UserList::delNodeByPhoneNum(std::string phoneNum) {
 
 std::string UserList::changeNode(std::string name) {
     if(fetchNode(name).getData().getPhoneNum() != empty.getData().getPhoneNum()) {
-        std::cout << "è¯·è¾“å…¥éœ€è¦æ”¹å˜çš„æ•°æ®åç¼–å·" << std::endl
-                  << "1: å§“å" << std::endl
-                  << "2: æ€§åˆ«" << std::endl
-                  << "3: ç”µè¯" << std::endl
-                  << "4: åœ°å€" << std::endl
-                  << "5: é‚®ç¼–" << std::endl
-                  << "6: é‚®ç®±" << std::endl
-                  << "7: QQå·" << std::endl
-                  << "8: ç±»åˆ«" << std::endl
-                  << "0: é€€å‡º" << std::endl;
+        std::cout << "ÇëÊäÈëÐèÒª¸Ä±äµÄÊý¾ÝÃû±àºÅ" << std::endl
+                  << "1: ÐÕÃû" << std::endl
+                  << "2: ÐÔ±ð" << std::endl
+                  << "3: µç»°" << std::endl
+                  << "4: µØÖ·" << std::endl
+                  << "5: ÓÊ±à" << std::endl
+                  << "6: ÓÊÏä" << std::endl
+                  << "7: QQºÅ" << std::endl
+                  << "8: Àà±ð" << std::endl
+                  << "0: ÍË³ö" << std::endl;
         int typeNum;
         std::string temp;
         while (std::cin >> typeNum && typeNum) {
             switch (typeNum) {
                 case 1: {
-                    std::cout << "è¯·è¾“å…¥æ–°çš„å§“å:";
+                    std::cout << "ÇëÊäÈëÐÂµÄÐÕÃû:";
                     std::cin >> temp;
                     fetchNode(name).getData().setName(temp);
+                    name = temp;
                     break;
                 }
                 case 2: {
-                    std::cout << "è¯·è¾“å…¥æ–°çš„æ€§åˆ«:";
+                    std::cout << "ÇëÊäÈëÐÂµÄÐÔ±ð:";
                     while(std::cin >> temp) {
-                        if (temp == "ç”·" || temp == "å¥³" || temp == "male" || temp == "female") {
+                        if (temp == "ÄÐ" || temp == "Å®" || temp == "male" || temp == "female") {
                             fetchNode(name).getData().setSex(temp);
                             break;
                         } else {
-                            std::cout << "è¾“å…¥çš„æ€§åˆ«æ ¼å¼éžæ³•ï¼Œè¯·é‡æ–°è¾“å…¥:";
+                            std::cout << "ÊäÈëµÄÐÔ±ð¸ñÊ½·Ç·¨£¬ÇëÖØÐÂÊäÈë:";
                         }
                     }
                     break;
                 }
                 case 3: {
-                    std::cout << "è¯·è¾“å…¥æ–°çš„ç”µè¯å·ç :";
+                    std::cout << "ÇëÊäÈëÐÂµÄµç»°ºÅÂë:";
                     while(std::cin >> temp) {
                         if (regex_match(temp, std::regex("[0-9]{11}"))) {
                             fetchNode(name).getData().setPhoneNum(temp);
                             break;
                         } else {
-                            std::cout << "è¾“å…¥çš„ç”µè¯æ ¼å¼éžæ³•ï¼Œè¯·é‡æ–°è¾“å…¥:";
+                            std::cout << "ÊäÈëµÄµç»°¸ñÊ½·Ç·¨£¬ÇëÖØÐÂÊäÈë:";
                         }
                     }
                     break;
                 }
                 case 4: {
-                    std::cout << "è¯·è¾“å…¥æ–°çš„åœ°å€:";
+                    std::cout << "ÇëÊäÈëÐÂµÄµØÖ·:";
                     std::cin >> temp;
                     if(temp == "0") {
                         fetchNode(name).getData().setAddress("");
@@ -170,7 +171,7 @@ std::string UserList::changeNode(std::string name) {
                     break;
                 }
                 case 5: {
-                    std::cout << "è¯·è¾“å…¥æ–°çš„é‚®ç¼–:";
+                    std::cout << "ÇëÊäÈëÐÂµÄÓÊ±à:";
                     while (std::cin >> temp) {
                         if (regex_match(temp, std::regex("^[0-9]{6}"))) {
                             fetchNode(name).getData().setPostalCode(temp);
@@ -179,12 +180,12 @@ std::string UserList::changeNode(std::string name) {
                             fetchNode(name).getData().setPostalCode("");
                             break;
                         } else {
-                            std::cout << "è¾“å…¥çš„é‚®æ”¿ç¼–ç æ ¼å¼éžæ³•ï¼Œè¯·é‡æ–°è¾“å…¥:";
+                            std::cout << "ÊäÈëµÄÓÊÕþ±àÂë¸ñÊ½·Ç·¨£¬ÇëÖØÐÂÊäÈë:";
                         }
                     }
                 }
                 case 6: {
-                    std::cout << "è¯·è¾“å…¥æ–°çš„é‚®ç®±:";
+                    std::cout << "ÇëÊäÈëÐÂµÄÓÊÏä:";
                     while (std::cin >> temp) {
                         if (regex_match(temp, std::regex("^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$"))) {
                             fetchNode(name).getData().setEMail(temp);
@@ -193,12 +194,12 @@ std::string UserList::changeNode(std::string name) {
                             fetchNode(name).getData().setEMail("");
                             break;
                         } else {
-                            std::cout << "è¾“å…¥çš„é‚®ç®±åœ°å€æ ¼å¼éžæ³•ï¼Œè¯·é‡æ–°è¾“å…¥:";
+                            std::cout << "ÊäÈëµÄÓÊÏäµØÖ·¸ñÊ½·Ç·¨£¬ÇëÖØÐÂÊäÈë:";
                         }
                     }
                 }
                 case 7: {
-                    std::cout << "è¯·è¾“å…¥æ–°çš„QQå·:";
+                    std::cout << "ÇëÊäÈëÐÂµÄQQºÅ:";
                     while (std::cin >> temp) {
                         if (regex_match(temp, std::regex("[1-9][0-9]{4,}"))) {
                             fetchNode(name).getData().setQqNum(temp);
@@ -207,17 +208,18 @@ std::string UserList::changeNode(std::string name) {
                             fetchNode(name).getData().setQqNum("");
                             break;
                         } else {
-                            std::cout << "è¾“å…¥çš„QQå·æ ¼å¼éžæ³•ï¼Œè¯·é‡æ–°è¾“å…¥:";
+                            std::cout << "ÊäÈëµÄQQºÅ¸ñÊ½·Ç·¨£¬ÇëÖØÐÂÊäÈë:";
                         }
                     }
                 }
                 case 8: {
-                    std::cout << "è¯·è¾“å…¥æ–°çš„ç±»åž‹:";
+                    std::cout << "ÇëÊäÈëÐÂµÄÀàÐÍ:";
                     std::cin >> temp;
                     fetchNode(name).getData().setType(temp);
                     break;
                 }
             }
+            std::cout << "ÇëÊäÈëÐèÒª¸Ä±äµÄÊý¾ÝÃû±àºÅ" << std::endl;
         }
         return "OK";
     } else {
