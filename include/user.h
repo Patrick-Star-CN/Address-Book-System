@@ -41,9 +41,6 @@ public:
 
     void setType(const std::string &type);
 
-    User(std::string name, std::string sex, std::string phoneNum, std::string address, std::string zipCode,
-         std::string eMail, std::string qqNum, std::string type);
-
     User();
 
     User(const std::string &phoneNum);

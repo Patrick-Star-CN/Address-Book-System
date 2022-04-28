@@ -4,8 +4,6 @@
 
 #include "../include/user.h"
 
-#include <utility>
-
 const std::string &User::getName() const {
     return name;
 }
@@ -69,11 +67,6 @@ const std::string &User::getType() const {
 void User::setType(const std::string &type) {
     User::type = type;
 }
-
-User::User(std::string name, std::string sex, std::string phoneNum, std::string address, std::string postalCode,
-           std::string eMail, std::string qqNum, std::string type) : name(std::move(name)), sex(std::move(sex)), phoneNum(std::move(phoneNum)),
-                                                                     address(std::move(address)), postalCode(std::move(postalCode)),
-                                                                     eMail(std::move(eMail)), QQNum(std::move(qqNum)), type(std::move(type)) {}
 
 User::User() {}
 

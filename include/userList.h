@@ -10,42 +10,43 @@ static ListNode<User> empty(User("empty"));
 
 class UserList : public List<User> {
 public:
-    ListNode<User> &fetchNode(std::string);
+    ListNode<User> &fetchNode(std::string, std::string);
 
-    ListNode<User> &fetchNodeByPhoneNum(std::string);
-
-    std::string delNode(std::string);
-
-    std::string delNodeByPhoneNum(std::string);
+    std::string delNode(std::string, std::string);
 
     std::string changeNode(std::string);
+
 };
 
-ListNode<User> &UserList::fetchNode(std::string name) {
+ListNode<User> &UserList::fetchNode(std::string context, std::string type) {
     ListNode<User> *ptr = head;
     while(ptr->getNext()) {
-        if(ptr->getData().getName() == name) {
+        if(type == "name" && ptr->getData().getName() == context
+        || type == "phoneNum" && ptr->getData().getPhoneNum() == context) {
             return *ptr;
         }
         ptr = ptr->getNext();
     }
-    if(ptr->getData().getName() == name) {
+    if(type == "name" && ptr->getData().getName() == context
+    || type == "phoneNum" && ptr->getData().getPhoneNum() == context) {
         return *ptr;
     }
     return empty;
 }
 
-std::string UserList::delNode(std::string name) {
+std::string UserList::delNode(std::string context, std::string type) {
     ListNode<User> *ptr = head;
     ListNode<User> *ptr_ = nullptr;
     while(ptr->getNext()) {
-        if(ptr->getData().getName() == name) {
+        if(type == "name" && ptr->getData().getName() == context
+        || type == "phoneNum" && ptr->getData().getPhoneNum() == context) {
             break;
         }
         ptr_ = ptr;
         ptr = ptr->getNext();
     }
-    if(ptr->getData().getName() != name && !ptr->getNext()) {
+    if(type == "name" && ptr->getData().getName() != context && !ptr->getNext()
+    || type == "phoneNum" && ptr->getData().getPhoneNum() != context && !ptr->getNext()) {
         return "USER_ERROR";
     }
     if(ptr_ && ptr->getNext()) {
@@ -67,54 +68,8 @@ std::string UserList::delNode(std::string name) {
     return "OK";
 }
 
-ListNode<User> &UserList::fetchNodeByPhoneNum(std::string phoneNum) {
-    ListNode<User> *ptr = head;
-    while(ptr->getNext()) {
-        if(ptr->getData().getPhoneNum() == phoneNum) {
-            return *ptr;
-        }
-        ptr = ptr->getNext();
-    }
-    if(ptr->getData().getPhoneNum() == phoneNum) {
-        return *ptr;
-    }
-    return empty;
-}
-
-std::string UserList::delNodeByPhoneNum(std::string phoneNum) {
-    ListNode<User> *ptr = head;
-    ListNode<User> *ptr_ = nullptr;
-    while(ptr->getNext()) {
-        if(ptr->getData().getPhoneNum() == phoneNum) {
-            break;
-        }
-        ptr_ = ptr;
-        ptr = ptr->getNext();
-    }
-    if(ptr->getData().getPhoneNum() != phoneNum && !ptr->getNext()) {
-        return "PHONE_NUM_ERROR";
-    }
-    if(ptr_ && ptr->getNext()) {
-        ptr_->setNext(ptr->getNext());
-        ptr->getNext()->setPrior(ptr_);
-    } else if(ptr_) {
-        ptr_->setNext(nullptr);
-        tail = ptr_;
-    } else if(ptr->getNext()) {
-        ptr->getNext()->setPrior(nullptr);
-        head = ptr->getNext();
-    } else {
-        tail = nullptr;
-        head = nullptr;
-    }
-    -- size;
-    delete ptr;
-    ptr = nullptr;
-    return "OK";
-}
-
 std::string UserList::changeNode(std::string name) {
-    if(fetchNode(name).getData().getPhoneNum() != empty.getData().getPhoneNum()) {
+    if(fetchNode(name, "name").getData().getPhoneNum() != empty.getData().getPhoneNum()) {
         std::cout << "请输入需要改变的数据名编号" << std::endl
                   << "1: 姓名" << std::endl
                   << "2: 性别" << std::endl
@@ -132,7 +87,7 @@ std::string UserList::changeNode(std::string name) {
                 case 1: {
                     std::cout << "请输入新的姓名:";
                     std::cin >> temp;
-                    fetchNode(name).getData().setName(temp);
+                    fetchNode(name, "name").getData().setName(temp);
                     name = temp;
                     break;
                 }
@@ -140,7 +95,7 @@ std::string UserList::changeNode(std::string name) {
                     std::cout << "请输入新的性别:";
                     while(std::cin >> temp) {
                         if (temp == "男" || temp == "女" || temp == "male" || temp == "female") {
-                            fetchNode(name).getData().setSex(temp);
+                            fetchNode(name, "name").getData().setSex(temp);
                             break;
                         } else {
                             std::cout << "输入的性别格式非法，请重新输入:";
@@ -152,7 +107,7 @@ std::string UserList::changeNode(std::string name) {
                     std::cout << "请输入新的电话号码:";
                     while(std::cin >> temp) {
                         if (regex_match(temp, std::regex("[0-9]{11}"))) {
-                            fetchNode(name).getData().setPhoneNum(temp);
+                            fetchNode(name, "name").getData().setPhoneNum(temp);
                             break;
                         } else {
                             std::cout << "输入的电话格式非法，请重新输入:";
@@ -164,9 +119,9 @@ std::string UserList::changeNode(std::string name) {
                     std::cout << "请输入新的地址:";
                     std::cin >> temp;
                     if(temp == "0") {
-                        fetchNode(name).getData().setAddress("");
+                        fetchNode(name, "name").getData().setAddress("");
                     } else {
-                        fetchNode(name).getData().setAddress(temp);
+                        fetchNode(name, "name").getData().setAddress(temp);
                     }
                     break;
                 }
@@ -174,10 +129,10 @@ std::string UserList::changeNode(std::string name) {
                     std::cout << "请输入新的邮编:";
                     while (std::cin >> temp) {
                         if (regex_match(temp, std::regex("^[0-9]{6}"))) {
-                            fetchNode(name).getData().setPostalCode(temp);
+                            fetchNode(name, "name").getData().setPostalCode(temp);
                             break;
                         } else if(temp == "0") {
-                            fetchNode(name).getData().setPostalCode("");
+                            fetchNode(name, "name").getData().setPostalCode("");
                             break;
                         } else {
                             std::cout << "输入的邮政编码格式非法，请重新输入:";
@@ -188,10 +143,10 @@ std::string UserList::changeNode(std::string name) {
                     std::cout << "请输入新的邮箱:";
                     while (std::cin >> temp) {
                         if (regex_match(temp, std::regex("^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$"))) {
-                            fetchNode(name).getData().setEMail(temp);
+                            fetchNode(name, "name").getData().setEMail(temp);
                             break;
                         } else if (temp == "0") {
-                            fetchNode(name).getData().setEMail("");
+                            fetchNode(name, "name").getData().setEMail("");
                             break;
                         } else {
                             std::cout << "输入的邮箱地址格式非法，请重新输入:";
@@ -202,10 +157,10 @@ std::string UserList::changeNode(std::string name) {
                     std::cout << "请输入新的QQ号:";
                     while (std::cin >> temp) {
                         if (regex_match(temp, std::regex("[1-9][0-9]{4,}"))) {
-                            fetchNode(name).getData().setQqNum(temp);
+                            fetchNode(name, "name").getData().setQqNum(temp);
                             break;
                         } else if (temp == "0") {
-                            fetchNode(name).getData().setQqNum("");
+                            fetchNode(name, "name").getData().setQqNum("");
                             break;
                         } else {
                             std::cout << "输入的QQ号格式非法，请重新输入:";
@@ -215,7 +170,7 @@ std::string UserList::changeNode(std::string name) {
                 case 8: {
                     std::cout << "请输入新的类型:";
                     std::cin >> temp;
-                    fetchNode(name).getData().setType(temp);
+                    fetchNode(name, "name").getData().setType(temp);
                     break;
                 }
             }
