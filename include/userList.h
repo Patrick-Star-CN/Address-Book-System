@@ -14,7 +14,7 @@ public:
 
     std::string delNode(std::string, std::string);
 
-    std::string changeNode(std::string);
+    std::string changeNode(std::string, std::string);
 
 };
 
@@ -68,8 +68,9 @@ std::string UserList::delNode(std::string context, std::string type) {
     return "OK";
 }
 
-std::string UserList::changeNode(std::string name) {
-    if(fetchNode(name, "name").getData().getPhoneNum() != empty.getData().getPhoneNum()) {
+std::string UserList::changeNode(std::string context, std::string type) {
+    if(type == "name" && fetchNode(context, "name").getData().getPhoneNum() != empty.getData().getPhoneNum()
+    || type == "phoneNum" && fetchNode(context, "phoneNum").getData().getPhoneNum() != empty.getData().getPhoneNum()) {
         std::cout << "请输入需要改变的数据名编号" << std::endl
                   << "1: 姓名" << std::endl
                   << "2: 性别" << std::endl
@@ -87,15 +88,23 @@ std::string UserList::changeNode(std::string name) {
                 case 1: {
                     std::cout << "请输入新的姓名:";
                     std::cin >> temp;
-                    fetchNode(name, "name").getData().setName(temp);
-                    name = temp;
+                    if(type == "name") {
+                        fetchNode(context, "name").getData().setName(temp);
+                        context = temp;
+                    } else if(type == "phoneNum") {
+                        fetchNode(context, "phoneNum").getData().setName(temp);
+                    }
                     break;
                 }
                 case 2: {
                     std::cout << "请输入新的性别:";
                     while(std::cin >> temp) {
                         if (temp == "男" || temp == "女" || temp == "male" || temp == "female") {
-                            fetchNode(name, "name").getData().setSex(temp);
+                            if(type == "name") {
+                                fetchNode(context, "name").getData().setSex(temp);
+                            } else if(type == "phoneNum") {
+                                fetchNode(context, "phoneNum").getData().setSex(temp);
+                            }
                             break;
                         } else {
                             std::cout << "输入的性别格式非法，请重新输入:";
@@ -107,7 +116,12 @@ std::string UserList::changeNode(std::string name) {
                     std::cout << "请输入新的电话号码:";
                     while(std::cin >> temp) {
                         if (regex_match(temp, std::regex("[0-9]{11}"))) {
-                            fetchNode(name, "name").getData().setPhoneNum(temp);
+                            if(type == "name") {
+                                fetchNode(context, "name").getData().setPhoneNum(temp);
+                            } else if(type == "phoneNum") {
+                                fetchNode(context, "phoneNum").getData().setPhoneNum(temp);
+                                context = temp;
+                            }
                             break;
                         } else {
                             std::cout << "输入的电话格式非法，请重新输入:";
@@ -119,9 +133,17 @@ std::string UserList::changeNode(std::string name) {
                     std::cout << "请输入新的地址:";
                     std::cin >> temp;
                     if(temp == "0") {
-                        fetchNode(name, "name").getData().setAddress("");
+                        if(type == "name") {
+                            fetchNode(context, "name").getData().setAddress("");
+                        } else if(type == "phoneNum") {
+                            fetchNode(context, "phoneNum").getData().setAddress("");
+                        }
                     } else {
-                        fetchNode(name, "name").getData().setAddress(temp);
+                        if(type == "name") {
+                            fetchNode(context, "name").getData().setAddress(temp);
+                        } else if(type == "phoneNum") {
+                            fetchNode(context, "phoneNum").getData().setAddress(temp);
+                        }
                     }
                     break;
                 }
@@ -129,10 +151,18 @@ std::string UserList::changeNode(std::string name) {
                     std::cout << "请输入新的邮编:";
                     while (std::cin >> temp) {
                         if (regex_match(temp, std::regex("^[0-9]{6}"))) {
-                            fetchNode(name, "name").getData().setPostalCode(temp);
+                            if(type == "name") {
+                                fetchNode(context, "name").getData().setPostalCode(temp);
+                            } else if(type == "phoneNum") {
+                                fetchNode(context, "phoneNum").getData().setPostalCode(temp);
+                            }
                             break;
                         } else if(temp == "0") {
-                            fetchNode(name, "name").getData().setPostalCode("");
+                            if(type == "name") {
+                                fetchNode(context, "name").getData().setPostalCode("");
+                            } else if(type == "phoneNum") {
+                                fetchNode(context, "phoneNum").getData().setPostalCode("");
+                            }
                             break;
                         } else {
                             std::cout << "输入的邮政编码格式非法，请重新输入:";
@@ -143,10 +173,18 @@ std::string UserList::changeNode(std::string name) {
                     std::cout << "请输入新的邮箱:";
                     while (std::cin >> temp) {
                         if (regex_match(temp, std::regex("^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$"))) {
-                            fetchNode(name, "name").getData().setEMail(temp);
+                            if(type == "name") {
+                                fetchNode(context, "name").getData().setEMail(temp);
+                            } else if(type == "phoneNum") {
+                                fetchNode(context, "phoneNum").getData().setEMail(temp);
+                            }
                             break;
                         } else if (temp == "0") {
-                            fetchNode(name, "name").getData().setEMail("");
+                            if(type == "name") {
+                                fetchNode(context, "name").getData().setEMail("");
+                            } else if(type == "phoneNum") {
+                                fetchNode(context, "phoneNum").getData().setEMail("");
+                            }
                             break;
                         } else {
                             std::cout << "输入的邮箱地址格式非法，请重新输入:";
@@ -157,10 +195,18 @@ std::string UserList::changeNode(std::string name) {
                     std::cout << "请输入新的QQ号:";
                     while (std::cin >> temp) {
                         if (regex_match(temp, std::regex("[1-9][0-9]{4,}"))) {
-                            fetchNode(name, "name").getData().setQqNum(temp);
+                            if(type == "name") {
+                                fetchNode(context, "name").getData().setQqNum(temp);
+                            } else if(type == "phoneNum") {
+                                fetchNode(context, "phoneNum").getData().setQqNum(temp);
+                            }
                             break;
                         } else if (temp == "0") {
-                            fetchNode(name, "name").getData().setQqNum("");
+                            if(type == "name") {
+                                fetchNode(context, "name").getData().setQqNum("");
+                            } else if(type == "phoneNum") {
+                                fetchNode(context, "phoneNum").getData().setQqNum("");
+                            }
                             break;
                         } else {
                             std::cout << "输入的QQ号格式非法，请重新输入:";
@@ -170,7 +216,11 @@ std::string UserList::changeNode(std::string name) {
                 case 8: {
                     std::cout << "请输入新的类型:";
                     std::cin >> temp;
-                    fetchNode(name, "name").getData().setType(temp);
+                    if(type == "name") {
+                        fetchNode(context, "name").getData().setType("");
+                    } else if(type == "phoneNum") {
+                        fetchNode(context, "phoneNum").getData().setType("");
+                    }
                     break;
                 }
             }

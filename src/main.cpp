@@ -5,10 +5,8 @@ int main() {
     UserList list;
     list.addNode();
     list.addNode();
-    std::cout << list.fetchNode("12345678901","phoneNum");
-    list.delNode("1", "name");
-    //list.changeNode("1");
-    //std::cin >> list[1];
+    list.changeNode("1", "name");
+    list.changeNode("23456789012", "phoneNum");
     for(int i = 0; i < list.getSize(); ++ i) {
         std::cout << list[i] << std::endl;
     }
