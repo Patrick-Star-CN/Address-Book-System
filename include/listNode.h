@@ -12,7 +12,7 @@ class ListNode {
 public:
     ListNode();
 
-    ListNode(T data);
+    explicit ListNode(T data);
 
     T getData() const;
 

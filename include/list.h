@@ -33,7 +33,7 @@ protected:
 template<typename T>
 void List<T>::addNode() {
     // 往尾节点的后面添加新的节点
-    ListNode<T> *newNode = new ListNode<T>();
+    auto newNode = new ListNode<T>();
     T newData;
     std::cin >> newData;
     newNode->setData(newData);

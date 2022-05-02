@@ -5,6 +5,8 @@
 
 #include "../include/user.h"
 
+#include <utility>
+
 const std::string &User::getName() const {
     return name;
 }
@@ -69,9 +71,9 @@ void User::setType(const std::string &type) {
     User::type = type;
 }
 
-User::User() {}
+User::User() = default;
 
-User::~User() {}
+User::~User() = default;
 
 std::istream &operator>>(std::istream &in, User &right) {
     std::cout << "请输入该用户的姓名：";
@@ -119,7 +121,7 @@ std::istream &operator>>(std::istream &in, User &right) {
     std::string eMail;
     std::cout << "请输入" << right.name << "的电子邮箱（输入0代表为留空）：";
     while (std::cin >> eMail) {
-        if (regex_match(eMail, std::regex("^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$"))) {
+        if (regex_match(eMail, std::regex(R"(^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$)"))) {
             right.setEMail(eMail);
             break;
         } else if (eMail == "0") {
@@ -162,4 +164,4 @@ std::ostream &operator<<(std::ostream &out, const User &right) {
     return out;
 }
 
-User::User(const std::string &phoneNum) : phoneNum(phoneNum) {}
+User::User(std::string phoneNum) : phoneNum(std::move(phoneNum)) {}

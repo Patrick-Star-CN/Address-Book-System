@@ -7,43 +7,58 @@
 
 static ListNode<User> empty(User("empty"));  // 空对象
 
-ListNode<User> &UserList::fetchNode(std::string context, std::string type) {
+ListNode<User> &UserList::fetchNode(const std::string& context, const std::string& type) {
     // 查询功能
     ListNode<User> *ptr = head;
-    while(ptr->getNext()) {
-        if(type == "name" && ptr->getData().getName() == context
-           || type == "phoneNum" && ptr->getData().getPhoneNum() == context) {
-            return *ptr;
-        }
-        ptr = ptr->getNext();
-    }
 
-    //最后的节点为所需节点
-    if(type == "name" && ptr->getData().getName() == context
-       || type == "phoneNum" && ptr->getData().getPhoneNum() == context) {
-        return *ptr;
+    if(type == "phoneNum") {
+        while(ptr) {
+            if(ptr->getData().getPhoneNum() == context) {
+                return *ptr;
+            }
+            ptr = ptr->getNext();
+        }
+    } else if(type == "name") {
+        // 处理重名情况
+        int num = 0;
+        ListNode<User> *ptr_[getSize()];
+        while(ptr) {
+            if(ptr->getData().getName() == context) {
+                ptr_[num] = ptr;
+                if(num == 1) {
+                    std::cout << "查询到多个用户，请输入对应用户前的编号进行选择" << std::endl;
+                    std::cout << "NO.1" << std::endl << *ptr_[0];
+                    std::cout << "NO.2" << std::endl << *ptr;
+                } else {
+                    std::cout << "NO." << (num + 1) << std::endl << *ptr;
+                }
+                num ++;
+            }
+            ptr = ptr->getNext();
+        }
+        if(num > 1) {
+            int val;
+            std::cin >> val;
+            if(val <= num) {
+                return *ptr_[val - 1];
+            } else {
+                return *ptr_[num - 1];
+            }
+        } else {
+            return *ptr_[0];
+        }
     }
     return empty;
 }
 
-std::string UserList::delNode(std::string context, std::string type) {
+void UserList::delNode(const std::string& context, const std::string& type) {
     // 删除功能，type控制查询的方法，支持用姓名与手机号查询
-    ListNode<User> *ptr = head;
-    ListNode<User> *ptr_ = nullptr;
-    while(ptr->getNext()) {
-        if(type == "name" && ptr->getData().getName() == context
-           || type == "phoneNum" && ptr->getData().getPhoneNum() == context) {
-            break;
-        }
-        ptr_ = ptr;
-        ptr = ptr->getNext();
+    ListNode<User> *ptr = &fetchNode(context, type);
+    if(ptr->getData().getPhoneNum() == "empty") {
+        std::cout << "不存在该用户" << std::endl;std::cout << "不存在该用户" << std::endl;
+        return;
     }
-
-    //最后的节点为所需节点
-    if(type == "name" && ptr->getData().getName() != context && !ptr->getNext()
-       || type == "phoneNum" && ptr->getData().getPhoneNum() != context && !ptr->getNext()) {
-        return "USER_ERROR";
-    }
+    ListNode<User> *ptr_ = ptr->getPrior();
 
     if(ptr_ && ptr->getNext()) {
         ptr_->setNext(ptr->getNext());
@@ -65,10 +80,9 @@ std::string UserList::delNode(std::string context, std::string type) {
     -- size;
     delete ptr;
     ptr = nullptr;
-    return "OK";
 }
 
-std::string UserList::changeNode(std::string context, std::string type) {
+void UserList::changeNode(std::string context, const std::string& type) {
     // 修改功能，type控制查询的方法，支持用姓名与手机号修改
     if(type == "name" && fetchNode(context, "name").getData().getPhoneNum() != empty.getData().getPhoneNum()
        || type == "phoneNum" && fetchNode(context, "phoneNum").getData().getPhoneNum() != empty.getData().getPhoneNum()) {
@@ -166,7 +180,7 @@ std::string UserList::changeNode(std::string context, std::string type) {
                 case 6: {
                     std::cout << "请输入新的邮箱:";
                     while (std::cin >> temp) {
-                        if (regex_match(temp, std::regex("^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$"))) {
+                        if (regex_match(temp, std::regex(R"(^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$)"))) {
                             if(type == "name") {
                                 fetchNode(context, "name").getData().setEMail(temp);
                             } else if(type == "phoneNum") {
@@ -217,13 +231,16 @@ std::string UserList::changeNode(std::string context, std::string type) {
                     }
                     break;
                 }
+                default: {
+                    std::cout << "输入有误，请重新输入:";
+                    break;
+                }
             }
             std::cout << "请输入需要改变的数据名编号" << std::endl;
         }
-        return "OK";
     } else {
         // 查询数据出错的情况
-        return "ERROR";
+        std::cout << "未能找到该用户" << std::endl;
     }
 }
 
@@ -287,6 +304,10 @@ void UserList::sortNode() {
                 return left.getData().getType() < right.getData().getType();
             });
             display();
+            break;
+        }
+        default: {
+            std::cout << "输入有误" << std::endl;
             break;
         }
     }
@@ -375,12 +396,22 @@ void UserList::fetchNode() {
     std::cout << "请输入目标地址，留空表示该位置的任何情况都符合" << std::endl;
     std::cin >> address;
     while(ptr) {
-        if((address.getProvince() == "" || address.getProvince() == ptr->getData().getAddress().getProvince())
-        && (address.getCity() == "" || address.getCity() == ptr->getData().getAddress().getCity())
-        && (address.getDistrict() == "" || address.getDistrict() == ptr->getData().getAddress().getDistrict())
-        && (address.getTown() == "" || address.getTown() == ptr->getData().getAddress().getTown())) {
-            std::cout << *ptr;
-            flag = false;
+        if (address.getTown().empty()) {
+            if ((address.getProvince().empty() || address.getProvince() == ptr->getData().getAddress().getProvince())
+                && (address.getCity().empty() || address.getCity() == ptr->getData().getAddress().getCity())
+                &&
+                (address.getDistrict().empty() || address.getDistrict() == ptr->getData().getAddress().getDistrict())) {
+                std::cout << *ptr;
+                flag = false;
+            }
+        } else {
+            if ((address.getProvince().empty() || address.getProvince() == ptr->getData().getAddress().getProvince())
+                && (address.getCity().empty() || address.getCity() == ptr->getData().getAddress().getCity())
+                && (address.getDistrict().empty() || address.getDistrict() == ptr->getData().getAddress().getDistrict())
+                && address.getTown() == ptr->getData().getAddress().getTown()) {
+                std::cout << *ptr;
+                flag = false;
+            }
         }
         ptr = ptr->getNext();
     }

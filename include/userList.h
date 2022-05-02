@@ -11,13 +11,13 @@
 
 class UserList : public List<User>/*, public Listable<User>*/ {
 public:
-    ListNode<User> &fetchNode(std::string, std::string);
+    ListNode<User> &fetchNode(const std::string&, const std::string&);
 
     void fetchNode();
 
-    std::string delNode(std::string, std::string);
+    void delNode(const std::string&, const std::string&);
 
-    std::string changeNode(std::string, std::string);
+    void changeNode(std::string, const std::string&);
 
     void sortNode();
 

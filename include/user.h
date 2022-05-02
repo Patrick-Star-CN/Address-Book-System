@@ -45,7 +45,7 @@ public:
 
     User();
 
-    User(const std::string &phoneNum);
+    explicit User(std::string phoneNum);
 
     virtual ~User();
 

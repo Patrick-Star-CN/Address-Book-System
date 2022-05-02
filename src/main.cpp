@@ -6,8 +6,9 @@ int main() {
     list.addNode();
     list.addNode();
     list.addNode();
-    list.fetchNode();
-    //list.display();
+    //list.fetchNode("1", "name");
+    list.delNode("1", "name");
+    list.display();
     system("pause");
     return 0;
 }

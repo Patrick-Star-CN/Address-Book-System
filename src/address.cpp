@@ -73,16 +73,16 @@ std::istream &operator>>(std::istream &in, Address &right) {
 }
 
 std::ostream &operator<<(std::ostream &out, const Address &right) {
-    if(right.getProvince() != "") {
+    if(!right.getProvince().empty()) {
         out << right.getProvince();
     }
-    if(right.getCity() != "") {
+    if(!right.getCity().empty()) {
         out << right.getCity();
     }
-    if(right.getDistrict() != "") {
+    if(!right.getDistrict().empty()) {
         out << right.getDistrict();
     }
-    if(right.getTown() != "") {
+    if(!right.getTown().empty()) {
         out << right.getTown();
     }
     return out;
