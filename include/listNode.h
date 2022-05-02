@@ -84,7 +84,7 @@ std::istream &operator>>(std::istream &in, ListNode<T> &right) {
 
 template<typename T>
 std::ostream &operator<<(std::ostream &out, const ListNode<T> &right) {
-    return out << right.getData();
+    return out << right.getData() << std::endl;
 }
 
 template<typename T>

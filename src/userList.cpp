@@ -132,19 +132,12 @@ std::string UserList::changeNode(std::string context, std::string type) {
                 }
                 case 4: {
                     std::cout << "请输入新的地址:";
-                    std::cin >> temp;
-                    if(temp == "0") {
-                        if(type == "name") {
-                            fetchNode(context, "name").getData().setAddress("");
-                        } else if(type == "phoneNum") {
-                            fetchNode(context, "phoneNum").getData().setAddress("");
-                        }
-                    } else {
-                        if(type == "name") {
-                            fetchNode(context, "name").getData().setAddress(temp);
-                        } else if(type == "phoneNum") {
-                            fetchNode(context, "phoneNum").getData().setAddress(temp);
-                        }
+                    Address address;
+                    std::cin >> address;
+                    if(type == "name") {
+                        fetchNode(context, "name").getData().setAddress(address);
+                    } else if(type == "phoneNum") {
+                        fetchNode(context, "phoneNum").getData().setAddress(address);
                     }
                     break;
                 }
@@ -240,11 +233,10 @@ void UserList::sortNode() {
               << "1: 姓名" << std::endl
               << "2: 性别" << std::endl
               << "3: 电话" << std::endl
-              << "4: 地址" << std::endl
-              << "5: 邮编" << std::endl
-              << "6: 邮箱" << std::endl
-              << "7: QQ号" << std::endl
-              << "8: 类别" << std::endl;
+              << "4: 邮编" << std::endl
+              << "5: 邮箱" << std::endl
+              << "6: QQ号" << std::endl
+              << "7: 类别" << std::endl;
     int type;
     std::cin >> type;
     switch(type) {
@@ -271,33 +263,26 @@ void UserList::sortNode() {
         }
         case 4: {
             sort([](const ListNode<User> &left, const ListNode<User> &right) -> bool {
-                return left.getData().getAddress() < right.getData().getAddress();
+                return left.getData().getPostalCode() < right.getData().getPostalCode();
             });
             display();
             break;
         }
         case 5: {
             sort([](const ListNode<User> &left, const ListNode<User> &right) -> bool {
-                return left.getData().getPostalCode() < right.getData().getPostalCode();
+                return left.getData().getEMail() < right.getData().getEMail();
             });
             display();
             break;
         }
         case 6: {
             sort([](const ListNode<User> &left, const ListNode<User> &right) -> bool {
-                return left.getData().getEMail() < right.getData().getEMail();
-            });
-            display();
-            break;
-        }
-        case 7: {
-            sort([](const ListNode<User> &left, const ListNode<User> &right) -> bool {
                 return left.getData().getQqNum() < right.getData().getQqNum();
             });
             display();
             break;
         }
-        case 8: {
+        case 7: {
             sort([](const ListNode<User> &left, const ListNode<User> &right) -> bool {
                 return left.getData().getType() < right.getData().getType();
             });
@@ -383,19 +368,23 @@ void UserList::swap(ListNode<User> *left, ListNode<User> *right) {
 
 void UserList::fetchNode() {
     // 通过地址实现模糊查询
-    std::cout << "请按格式输入要查询的地址，%表示若干个字符，_表示单个字符：" << std::endl;
-    std::string address;
-    std::cin >> address;
-    bool flag = true;
+    Address address;
     ListNode<User> *ptr = head;
+    bool flag = true;
+
+    std::cout << "请输入目标地址，留空表示该位置的任何情况都符合" << std::endl;
+    std::cin >> address;
     while(ptr) {
-        if(ptr->getData().getAddress().find(address) != std::string::npos) {
+        if((address.getProvince() == "" || address.getProvince() == ptr->getData().getAddress().getProvince())
+        && (address.getCity() == "" || address.getCity() == ptr->getData().getAddress().getCity())
+        && (address.getDistrict() == "" || address.getDistrict() == ptr->getData().getAddress().getDistrict())
+        && (address.getTown() == "" || address.getTown() == ptr->getData().getAddress().getTown())) {
             std::cout << *ptr;
             flag = false;
         }
         ptr = ptr->getNext();
     }
     if(flag) {
-        std::cout << "未能查到有关数据" << std::endl;
+        std::cout << "未能查询到满足要求的用户" << std::endl;
     }
 }

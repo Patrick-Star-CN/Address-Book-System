@@ -8,6 +8,7 @@
 #include <string>
 #include <iostream>
 #include <regex>
+#include "address.h"
 class User {
 public:
     const std::string &getName() const;
@@ -22,9 +23,9 @@ public:
 
     void setPhoneNum(const std::string &phoneNum);
 
-    const std::string &getAddress() const;
+    const Address &getAddress() const;
 
-    void setAddress(const std::string &address);
+    void setAddress(const Address &address);
 
     const std::string &getPostalCode() const;
 
@@ -56,7 +57,7 @@ private:
     std::string name;        // 姓名
     std::string sex;         // 性别
     std::string phoneNum;    // 手机号
-    std::string address;     // 地址
+    Address address;     // 地址
     std::string postalCode;  // 邮政编码
     std::string eMail;       // 邮箱
     std::string QQNum;       // QQ号

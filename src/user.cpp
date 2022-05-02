@@ -29,11 +29,11 @@ void User::setPhoneNum(const std::string &phoneNum) {
     User::phoneNum = phoneNum;
 }
 
-const std::string &User::getAddress() const {
+const Address &User::getAddress() const {
     return address;
 }
 
-void User::setAddress(const std::string &address) {
+void User::setAddress(const Address &address) {
     User::address = address;
 }
 
@@ -99,14 +99,8 @@ std::istream &operator>>(std::istream &in, User &right) {
         }
     }
 
-    std::string address;
-    std::cout << "请输入" << right.name << "的住址（输入0代表为留空）：";
-    std::cin >> address;
-    if(address == "0") {
-        right.setAddress("");
-    } else {
-        right.setAddress(address);
-    }
+    std::cout << "请输入" << right.name << "的住址";
+    std::cin >> right.address;
 
     std::string postalCode;
     std::cout << "请输入" << right.name << "的邮政编码（输入0代表为留空）：";
@@ -157,9 +151,14 @@ std::istream &operator>>(std::istream &in, User &right) {
 }
 
 std::ostream &operator<<(std::ostream &out, const User &right) {
-    out << right.getName() << '\t' << right.getSex() << '\t' << right.getPhoneNum() << "  " << right.getAddress()
-        << '\t' << right.getPostalCode() << '\t' << right.getEMail() << '\t' << right.getQqNum() << '\t' << right.getType();
-    out << std::endl;
+    out << "姓名:" << right.getName() << '\n'
+        << "性别:" << right.getSex() << '\n'
+        << "电话:" << right.getPhoneNum() << "\n"
+        << "地址:" << right.getAddress() << '\n'
+        << "邮编:" << right.getPostalCode() << '\n'
+        << "邮箱:" << right.getEMail() << '\n'
+        << "QQ号:" << right.getQqNum() << '\n'
+        << "类型:" << right.getType() << std::endl;
     return out;
 }
 

@@ -6,8 +6,8 @@ int main() {
     list.addNode();
     list.addNode();
     list.addNode();
-    list.sortNode();
-    list.display();
+    list.fetchNode();
+    //list.display();
     system("pause");
     return 0;
 }
