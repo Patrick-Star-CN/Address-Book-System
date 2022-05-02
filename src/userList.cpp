@@ -8,7 +8,7 @@
 static ListNode<User> empty(User("empty"));  // 空对象
 
 ListNode<User> &UserList::fetchNode(const std::string& context, const std::string& type) {
-    // 查询功能
+    // 查询功能,type控制查询的方法，支持用姓名、手机号、类型查询
     ListNode<User> *ptr = head;
 
     if(type == "phoneNum") {
@@ -46,6 +46,13 @@ ListNode<User> &UserList::fetchNode(const std::string& context, const std::strin
             }
         } else {
             return *ptr_[0];
+        }
+    } else if(type == "type") {
+        while(ptr) {
+            if(ptr->getData().getType() == context) {
+                std::cout << *ptr;
+            }
+            ptr = ptr->getNext();
         }
     }
     return empty;
