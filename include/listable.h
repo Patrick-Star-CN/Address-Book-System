@@ -10,8 +10,12 @@
 template <typename T>
 class Listable {
 public:
-    virtual void delNode(std::string) = 0;
+    virtual ListNode<T> &fetchNode(std::string, std::string);
 
-    virtual ListNode<T> &fetchNode(std::string) = 0;
+    virtual std::string delNode(std::string, std::string);
+
+    virtual std::string changeNode(std::string, std::string);
+
+    virtual std::string sortNode();
 };
 #endif //PROJECT_ABS_LISTABLE_H

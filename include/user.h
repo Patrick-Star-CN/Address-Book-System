@@ -1,4 +1,5 @@
 //
+// 用户数据类
 // Created by 15928 on 2022/4/17.
 //
 
@@ -52,13 +53,13 @@ public:
     friend std::ostream &operator<<(std::ostream &out, const User &right);
 
 private:
-    std::string name;
-    std::string sex;
-    std::string phoneNum;
-    std::string address;
-    std::string postalCode;
-    std::string eMail;
-    std::string QQNum;
-    std::string type;
+    std::string name;        // 姓名
+    std::string sex;         // 性别
+    std::string phoneNum;    // 手机号
+    std::string address;     // 地址
+    std::string postalCode;  // 邮政编码
+    std::string eMail;       // 邮箱
+    std::string QQNum;       // QQ号
+    std::string type;        // 类型
 };
 #endif //PROJECT_ABS_USER_H

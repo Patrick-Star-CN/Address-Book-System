@@ -1,4 +1,5 @@
 //
+// 链表元素模板类
 // Created by 15928 on 2022/4/22.
 //
 
@@ -21,9 +22,13 @@ public:
 
     ListNode *getNext() const;
 
+    ListNode *getNext();
+
     void setNext(ListNode *next);
 
     ListNode *getPrior() const;
+
+    ListNode *getPrior();
 
     void setPrior(ListNode *prior);
 
@@ -34,9 +39,9 @@ public:
     friend std::ostream &operator<<(std::ostream &out, const ListNode<T_> &right);
 
 private:
-    T data;
-    ListNode *next;
-    ListNode *prior;
+    T data;           // 元素数据
+    ListNode *next;   // 后一节点
+    ListNode *prior;  // 前一节点
 };
 
 template<typename T>
@@ -91,6 +96,16 @@ ListNode<T>::ListNode(T data): next(nullptr), prior(nullptr), data(data) {}
 template<typename T>
 T &ListNode<T>::getData() {
     return data;
+}
+
+template<typename T>
+ListNode<T> *ListNode<T>::getNext() {
+    return next;
+}
+
+template<typename T>
+ListNode<T> *ListNode<T>::getPrior() {
+    return prior;
 }
 
 #endif //PROJECT_ABS_LISTNODE_H
