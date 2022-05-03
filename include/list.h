@@ -16,6 +16,8 @@ public:
 
     int getSize();
 
+    ListNode<T> *getHead();
+
     T &addNode(std::istream&);
 
     void delNode(int);
@@ -151,6 +153,11 @@ void List<T>::display() {
         std::cout << *ptr;
         ptr = ptr->getNext();
     }
+}
+
+template<typename T>
+ListNode<T> *List<T>::getHead() {
+    return head;
 }
 
 #endif //PROJECT_ABS_LIST_H

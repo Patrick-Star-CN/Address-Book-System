@@ -10,12 +10,15 @@
 
 class File {
 public:
-    File(const std::string);
+    File(const std::string, const std::string);
 
     void init(UserList&);
 
     void add(User&);
+
+    void change(UserList&);
 private:
     std::string path;
+    std::string fileType;
 };
 #endif //PROJECT_ABS_FILE_H

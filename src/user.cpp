@@ -195,7 +195,7 @@ std::ostream &operator<<(std::ostream &out, const User &right) {
         } else {
             out << right.getQqNum() << " ";
         }
-        out << right.getType() << std::endl;
+        out << right.getType();
     }
     return out;
 }
