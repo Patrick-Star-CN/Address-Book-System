@@ -1,13 +1,13 @@
-#include "../include/userList.h"
+#include "../include/file.h"
 
 int main() {
     UserList list;
-    list.addNode();
-    list.addNode();
-    list.addNode();
-    list.addNode();
+    File file("../data/data.txt");
+    file.init(list);
+    file.add(list.addNode(std::cin));
+    //list.addNode(std::cin);
     //list.fetchNode("1", "name");
-    list.delNode("1", "name");
+    //list.delNode("1", "name");
     list.display();
     system("pause");
     return 0;

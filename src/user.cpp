@@ -76,12 +76,16 @@ User::User() = default;
 User::~User() = default;
 
 std::istream &operator>>(std::istream &in, User &right) {
-    std::cout << "请输入该用户的姓名：";
-    std::cin >> right.name;
+    if(typeid(in) == typeid(std::cin)) {
+        std::cout << "请输入该用户的姓名：";
+    }
+    in >> right.name;
 
     std::string sex;
-    std::cout << "请输入" << right.name << "的性别：";
-    while (std::cin >> sex) {
+    if(typeid(in) == typeid(std::cin)) {
+        std::cout << "请输入" << right.name << "的性别：";
+    }
+    while (in >> sex) {
         if (sex == "男" || sex == "女" || sex == "male" || sex == "female") {
             right.setSex(sex);
             break;
@@ -91,8 +95,10 @@ std::istream &operator>>(std::istream &in, User &right) {
     }
 
     std::string phoneNum;
-    std::cout << "请输入" << right.name << "的电话号码：";
-    while (std::cin >> phoneNum) {
+    if(typeid(in) == typeid(std::cin)) {
+        std::cout << "请输入" << right.name << "的电话号码：";
+    }
+    while (in >> phoneNum) {
         if (regex_match(phoneNum, std::regex("[0-9]{11}"))) {
             right.setPhoneNum(phoneNum);
             break;
@@ -101,12 +107,16 @@ std::istream &operator>>(std::istream &in, User &right) {
         }
     }
 
-    std::cout << "请输入" << right.name << "的住址";
-    std::cin >> right.address;
+    if(typeid(in) == typeid(std::cin)) {
+        std::cout << "请输入" << right.name << "的住址";
+    }
+    in >> right.address;
 
     std::string postalCode;
-    std::cout << "请输入" << right.name << "的邮政编码（输入0代表为留空）：";
-    while (std::cin >> postalCode) {
+    if(typeid(in) == typeid(std::cin)) {
+        std::cout << "请输入" << right.name << "的邮政编码（输入0代表为留空）：";
+    }
+    while (in >> postalCode) {
         if (regex_match(postalCode, std::regex("^[0-9]{6}"))) {
             right.setPostalCode(postalCode);
             break;
@@ -119,8 +129,10 @@ std::istream &operator>>(std::istream &in, User &right) {
     }
 
     std::string eMail;
-    std::cout << "请输入" << right.name << "的电子邮箱（输入0代表为留空）：";
-    while (std::cin >> eMail) {
+    if(typeid(in) == typeid(std::cin)) {
+        std::cout << "请输入" << right.name << "的电子邮箱（输入0代表为留空）：";
+    }
+    while (in >> eMail) {
         if (regex_match(eMail, std::regex(R"(^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$)"))) {
             right.setEMail(eMail);
             break;
@@ -133,8 +145,10 @@ std::istream &operator>>(std::istream &in, User &right) {
     }
 
     std::string QQNum;
-    std::cout << "请输入" << right.name << "的QQ号（输入0代表为留空）：";
-    while (std::cin >> QQNum) {
+    if(typeid(in) == typeid(std::cin)) {
+        std::cout << "请输入" << right.name << "的QQ号（输入0代表为留空）：";
+    }
+    while (in >> QQNum) {
         if (regex_match(QQNum, std::regex("[1-9][0-9]{4,}"))) {
             right.setQqNum(QQNum);
             break;
@@ -147,20 +161,42 @@ std::istream &operator>>(std::istream &in, User &right) {
     }
 
     std::string type;
-    std::cout << "请输入" << right.name << "的类型：";
-    std::cin >> right.type;
+    if(typeid(in) == typeid(std::cin)) {
+        std::cout << "请输入" << right.name << "的类型：";
+    }
+    in >> right.type;
     return in;
 }
 
 std::ostream &operator<<(std::ostream &out, const User &right) {
-    out << "姓名:" << right.getName() << '\n'
-        << "性别:" << right.getSex() << '\n'
-        << "电话:" << right.getPhoneNum() << "\n"
-        << "地址:" << right.getAddress() << '\n'
-        << "邮编:" << right.getPostalCode() << '\n'
-        << "邮箱:" << right.getEMail() << '\n'
-        << "QQ号:" << right.getQqNum() << '\n'
-        << "类型:" << right.getType() << std::endl;
+    if(typeid(out) == typeid(std::cout)) {
+        out << "姓名:" << right.getName() << '\n'
+            << "性别:" << right.getSex() << '\n'
+            << "电话:" << right.getPhoneNum() << "\n"
+            << "地址:" << right.getAddress() << '\n'
+            << "邮编:" << right.getPostalCode() << '\n'
+            << "邮箱:" << right.getEMail() << '\n'
+            << "QQ号:" << right.getQqNum() << '\n'
+            << "类型:" << right.getType() << std::endl;
+    } else {
+        out << right.getName() << " " << right.getSex() << " " << right.getPhoneNum() << " " << right.getAddress();
+        if(right.getPostalCode().empty()) {
+            out << "0" << " ";
+        } else {
+            out << right.getPostalCode() << " ";
+        }
+        if(right.getEMail().empty()) {
+            out << "0" << " ";
+        } else {
+            out << right.getEMail() << " ";
+        }
+        if(right.getQqNum().empty()) {
+            out << "0" << " ";
+        } else {
+            out << right.getQqNum() << " ";
+        }
+        out << right.getType() << std::endl;
+    }
     return out;
 }
 

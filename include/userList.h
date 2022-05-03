@@ -7,9 +7,8 @@
 #define PROJECT_ABS_USERLIST_H
 #include "list.h"
 #include "user.h"
-#include "listable.h"
 
-class UserList : public List<User>/*, public Listable<User>*/ {
+class UserList : public List<User> {
 public:
     ListNode<User> &fetchNode(const std::string&, const std::string&);
 

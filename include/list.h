@@ -16,7 +16,7 @@ public:
 
     int getSize();
 
-    void addNode();
+    T &addNode(std::istream&);
 
     void delNode(int);
 
@@ -31,11 +31,11 @@ protected:
 };
 
 template<typename T>
-void List<T>::addNode() {
+T &List<T>::addNode(std::istream &in) {
     // 往尾节点的后面添加新的节点
     auto newNode = new ListNode<T>();
     T newData;
-    std::cin >> newData;
+    in >> newData;
     newNode->setData(newData);
     newNode->setNext(nullptr);
     newNode->setPrior(tail);
@@ -53,6 +53,7 @@ void List<T>::addNode() {
     }
 
     ++ size;
+    return newNode->getData();
 }
 
 template<typename T>

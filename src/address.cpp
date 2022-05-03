@@ -38,7 +38,9 @@ void Address::setTown(const std::string &town) {
 
 std::istream &operator>>(std::istream &in, Address &right) {
     std::string temp;
-    std::cout << "请输入地址的省级行政区划（0代表留空）：";
+    if(typeid(in) == typeid(std::cin)) {
+        std::cout << "请输入地址的省级行政区划（0代表留空）：";
+    }
     in >> temp;
     if(temp == "0") {
         right.setProvince("");
@@ -46,7 +48,9 @@ std::istream &operator>>(std::istream &in, Address &right) {
         right.setProvince(temp);
     }
 
-    std::cout << "请输入地址的市级行政区划（0代表留空）：";
+    if(typeid(in) == typeid(std::cin)) {
+        std::cout << "请输入地址的市级行政区划（0代表留空）：";
+    }
     in >> temp;
     if(temp == "0") {
         right.setCity("");
@@ -54,7 +58,9 @@ std::istream &operator>>(std::istream &in, Address &right) {
         right.setCity(temp);
     }
 
-    std::cout << "请输入地址的区级行政区划（0代表留空）：";
+    if(typeid(in) == typeid(std::cin)) {
+        std::cout << "请输入地址的区级行政区划（0代表留空）：";
+    }
     in >> temp;
     if(temp == "0") {
         right.setDistrict("");
@@ -62,7 +68,9 @@ std::istream &operator>>(std::istream &in, Address &right) {
         right.setDistrict(temp);
     }
 
-    std::cout << "请输入地址的镇级行政区划（0代表留空）：";
+    if(typeid(in) == typeid(std::cin)) {
+        std::cout << "请输入地址的镇级行政区划（0代表留空）：";
+    }
     in >> temp;
     if(temp == "0") {
         right.setTown("");
@@ -74,16 +82,24 @@ std::istream &operator>>(std::istream &in, Address &right) {
 
 std::ostream &operator<<(std::ostream &out, const Address &right) {
     if(!right.getProvince().empty()) {
-        out << right.getProvince();
+        out << right.getProvince() << " ";
+    } else if(typeid(out) != typeid(std::cout)) {
+        out << "0 ";
     }
     if(!right.getCity().empty()) {
-        out << right.getCity();
+        out << right.getCity() << " ";
+    } else if(typeid(out) != typeid(std::cout)) {
+        out << "0 ";
     }
     if(!right.getDistrict().empty()) {
-        out << right.getDistrict();
+        out << right.getDistrict() << " ";
+    } else if(typeid(out) != typeid(std::cout)) {
+        out << "0 ";
     }
     if(!right.getTown().empty()) {
-        out << right.getTown();
+        out << right.getTown() << " ";
+    } else if(typeid(out) != typeid(std::cout)) {
+        out << "0 ";
     }
     return out;
 }
