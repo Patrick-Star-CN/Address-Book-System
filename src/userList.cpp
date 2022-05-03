@@ -91,8 +91,9 @@ void UserList::delNode(const std::string& context, const std::string& type) {
 
 void UserList::changeNode(std::string context, const std::string& type) {
     // 修改功能，type控制查询的方法，支持用姓名与手机号修改
-    if(type == "name" && fetchNode(context, "name").getData().getPhoneNum() != empty.getData().getPhoneNum()
-       || type == "phoneNum" && fetchNode(context, "phoneNum").getData().getPhoneNum() != empty.getData().getPhoneNum()) {
+    auto &user = type == "name"? fetchNode(context, "name"): fetchNode(context, "phoneNum");
+    if(type == "name" && user.getData().getPhoneNum() != empty.getData().getPhoneNum()
+       || type == "phoneNum" && user.getData().getPhoneNum() != empty.getData().getPhoneNum()) {
         std::cout << "请输入需要改变的数据名编号" << std::endl
                   << "1: 姓名" << std::endl
                   << "2: 性别" << std::endl
@@ -105,145 +106,149 @@ void UserList::changeNode(std::string context, const std::string& type) {
                   << "0: 退出" << std::endl;
         int typeNum;
         std::string temp;
-        while (std::cin >> typeNum && typeNum) {
-            switch (typeNum) {
-                case 1: {
-                    std::cout << "请输入新的姓名:";
-                    std::cin >> temp;
-                    if(type == "name") {
-                        fetchNode(context, "name").getData().setName(temp);
-                        context = temp;
-                    } else if(type == "phoneNum") {
-                        fetchNode(context, "phoneNum").getData().setName(temp);
-                    }
-                    break;
+        std::cin >> typeNum;
+        switch (typeNum) {
+            case 1: {
+                std::cout << "请输入新的姓名:";
+                std::cin >> temp;
+                if(type == "name") {
+                    user.getData().setName(temp);
+                    context = temp;
+                } else if(type == "phoneNum") {
+                    user.getData().setName(temp);
                 }
-                case 2: {
-                    std::cout << "请输入新的性别:";
-                    while(std::cin >> temp) {
-                        if (temp == "男" || temp == "女" || temp == "male" || temp == "female") {
-                            if(type == "name") {
-                                fetchNode(context, "name").getData().setSex(temp);
-                            } else if(type == "phoneNum") {
-                                fetchNode(context, "phoneNum").getData().setSex(temp);
-                            }
-                            break;
-                        } else {
-                            std::cout << "输入的性别格式非法，请重新输入:";
-                        }
-                    }
-                    break;
-                }
-                case 3: {
-                    std::cout << "请输入新的电话号码:";
-                    while(std::cin >> temp) {
-                        if (regex_match(temp, std::regex("[0-9]{11}"))) {
-                            if(type == "name") {
-                                fetchNode(context, "name").getData().setPhoneNum(temp);
-                            } else if(type == "phoneNum") {
-                                fetchNode(context, "phoneNum").getData().setPhoneNum(temp);
-                                context = temp;
-                            }
-                            break;
-                        } else {
-                            std::cout << "输入的电话格式非法，请重新输入:";
-                        }
-                    }
-                    break;
-                }
-                case 4: {
-                    std::cout << "请输入新的地址:";
-                    Address address;
-                    std::cin >> address;
-                    if(type == "name") {
-                        fetchNode(context, "name").getData().setAddress(address);
-                    } else if(type == "phoneNum") {
-                        fetchNode(context, "phoneNum").getData().setAddress(address);
-                    }
-                    break;
-                }
-                case 5: {
-                    std::cout << "请输入新的邮编:";
-                    while (std::cin >> temp) {
-                        if (regex_match(temp, std::regex("^[0-9]{6}"))) {
-                            if(type == "name") {
-                                fetchNode(context, "name").getData().setPostalCode(temp);
-                            } else if(type == "phoneNum") {
-                                fetchNode(context, "phoneNum").getData().setPostalCode(temp);
-                            }
-                            break;
-                        } else if(temp == "0") {
-                            if(type == "name") {
-                                fetchNode(context, "name").getData().setPostalCode("");
-                            } else if(type == "phoneNum") {
-                                fetchNode(context, "phoneNum").getData().setPostalCode("");
-                            }
-                            break;
-                        } else {
-                            std::cout << "输入的邮政编码格式非法，请重新输入:";
-                        }
-                    }
-                }
-                case 6: {
-                    std::cout << "请输入新的邮箱:";
-                    while (std::cin >> temp) {
-                        if (regex_match(temp, std::regex(R"(^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$)"))) {
-                            if(type == "name") {
-                                fetchNode(context, "name").getData().setEMail(temp);
-                            } else if(type == "phoneNum") {
-                                fetchNode(context, "phoneNum").getData().setEMail(temp);
-                            }
-                            break;
-                        } else if (temp == "0") {
-                            if(type == "name") {
-                                fetchNode(context, "name").getData().setEMail("");
-                            } else if(type == "phoneNum") {
-                                fetchNode(context, "phoneNum").getData().setEMail("");
-                            }
-                            break;
-                        } else {
-                            std::cout << "输入的邮箱地址格式非法，请重新输入:";
-                        }
-                    }
-                }
-                case 7: {
-                    std::cout << "请输入新的QQ号:";
-                    while (std::cin >> temp) {
-                        if (regex_match(temp, std::regex("[1-9][0-9]{4,}"))) {
-                            if(type == "name") {
-                                fetchNode(context, "name").getData().setQqNum(temp);
-                            } else if(type == "phoneNum") {
-                                fetchNode(context, "phoneNum").getData().setQqNum(temp);
-                            }
-                            break;
-                        } else if (temp == "0") {
-                            if(type == "name") {
-                                fetchNode(context, "name").getData().setQqNum("");
-                            } else if(type == "phoneNum") {
-                                fetchNode(context, "phoneNum").getData().setQqNum("");
-                            }
-                            break;
-                        } else {
-                            std::cout << "输入的QQ号格式非法，请重新输入:";
-                        }
-                    }
-                }
-                case 8: {
-                    std::cout << "请输入新的类型:";
-                    std::cin >> temp;
-                    if(type == "name") {
-                        fetchNode(context, "name").getData().setType("");
-                    } else if(type == "phoneNum") {
-                        fetchNode(context, "phoneNum").getData().setType("");
-                    }
-                    break;
-                }
-                default: {
-                    std::cout << "输入有误，请重新输入:";
-                    break;
-                }
+                break;
             }
-            std::cout << "请输入需要改变的数据名编号" << std::endl;
+            case 2: {
+                std::cout << "请输入新的性别:";
+                while(std::cin >> temp) {
+                    if (temp == "男" || temp == "女" || temp == "male" || temp == "female") {
+                        if(type == "name") {
+                            user.getData().setSex(temp);
+                        } else if(type == "phoneNum") {
+                            user.getData().setSex(temp);
+                        }
+                        break;
+                    } else {
+                        std::cout << "输入的性别格式非法，请重新输入:";
+                    }
+                }
+                break;
+            }
+            case 3: {
+                std::cout << "请输入新的电话号码:";
+                while(std::cin >> temp) {
+                    if (regex_match(temp, std::regex("[0-9]{11}"))) {
+                        if(type == "name") {
+                            user.getData().setPhoneNum(temp);
+                        } else if(type == "phoneNum") {
+                            user.getData().setPhoneNum(temp);
+                            context = temp;
+                        }
+                        break;
+                    } else {
+                        std::cout << "输入的电话格式非法，请重新输入:";
+                    }
+                }
+                break;
+            }
+            case 4: {
+                std::cout << "请输入新的地址:";
+                Address address;
+                std::cin >> address;
+                if(type == "name") {
+                    user.getData().setAddress(address);
+                } else if(type == "phoneNum") {
+                    user.getData().setAddress(address);
+                }
+                break;
+            }
+            case 5: {
+                std::cout << "请输入新的邮编:";
+                while (std::cin >> temp) {
+                    if (regex_match(temp, std::regex("^[0-9]{6}"))) {
+                        if(type == "name") {
+                            user.getData().setPostalCode(temp);
+                        } else if(type == "phoneNum") {
+                            user.getData().setPostalCode(temp);
+                        }
+                        break;
+                    } else if(temp == "0") {
+                        if(type == "name") {
+                            user.getData().setPostalCode("");
+                        } else if(type == "phoneNum") {
+                            user.getData().setPostalCode("");
+                        }
+                        break;
+                    } else {
+                        std::cout << "输入的邮政编码格式非法，请重新输入:";
+                    }
+                }
+                break;
+            }
+            case 6: {
+                std::cout << "请输入新的邮箱:";
+                while (std::cin >> temp) {
+                    if (regex_match(temp, std::regex(R"(^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$)"))) {
+                        if(type == "name") {
+                            user.getData().setEMail(temp);
+                        } else if(type == "phoneNum") {
+                            user.getData().setEMail(temp);
+                        }
+                        break;
+                    } else if (temp == "0") {
+                        if(type == "name") {
+                            user.getData().setEMail("");
+                        } else if(type == "phoneNum") {
+                            user.getData().setEMail("");
+                        }
+                        break;
+                    } else {
+                        std::cout << "输入的邮箱地址格式非法，请重新输入:";
+                    }
+                }
+                break;
+            }
+            case 7: {
+                std::cout << "请输入新的QQ号:";
+                while (std::cin >> temp) {
+                    if (regex_match(temp, std::regex("[1-9][0-9]{4,}"))) {
+                        if(type == "name") {
+                            user.getData().setQqNum(temp);
+                        } else if(type == "phoneNum") {
+                            user.getData().setQqNum(temp);
+                        }
+                        break;
+                    } else if (temp == "0") {
+                        if(type == "name") {
+                            user.getData().setQqNum("");
+                        } else if(type == "phoneNum") {
+                            user.getData().setQqNum("");
+                        }
+                        break;
+                    } else {
+                        std::cout << "输入的QQ号格式非法，请重新输入:";
+                    }
+                }
+                break;
+            }
+            case 8: {
+                std::cout << "请输入新的类型:";
+                std::cin >> temp;
+                if(type == "name") {
+                    user.getData().setType(temp);
+                } else if(type == "phoneNum") {
+                    user.getData().setType(temp);
+                }
+                break;
+            }
+            case 0: {
+                break;
+            }
+            default: {
+                std::cout << "输入有误，自动返回上级菜单";
+                break;
+            }
         }
     } else {
         // 查询数据出错的情况
@@ -314,7 +319,7 @@ void UserList::sortNode() {
             break;
         }
         default: {
-            std::cout << "输入有误" << std::endl;
+            std::cout << "输入有误，已自动返回上级菜单" << std::endl;
             break;
         }
     }

@@ -13,7 +13,7 @@ void File::init(UserList &userList) {
     std::ifstream in;
     in.open(path + fileType, std::ios::in);
     if(!in.is_open()) {
-        std::cout << "鏂囦欢鎵撳紑澶辫触" << std::endl;
+        std::cout << "文件打开失败" << std::endl;
         return;
     }
     while(!in.eof()) {
@@ -26,7 +26,7 @@ void File::add(User &user) {
     std::ofstream out;
     out.open(path + fileType, std::ios::app);
     if(!out.is_open()) {
-        std::cout << "鏂囦欢鎵撳紑澶辫触" << std::endl;
+        std::cout << "文件打开失败" << std::endl;
         return;
     }
     out << std::endl << user;
@@ -37,7 +37,7 @@ void File::change(UserList &userList) {
     std::ofstream out;
     out.open(path + ".temp", std::ios::app);
     if(!out.is_open()) {
-        std::cout << "鏂囦欢鎵撳紑澶辫触" << std::endl;
+        std::cout << "文件打开失败" << std::endl;
         return;
     }
     auto ptr = userList.getHead();
