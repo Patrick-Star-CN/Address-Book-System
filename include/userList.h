@@ -10,7 +10,7 @@
 
 class UserList : public List<User> {
 public:
-    ListNode<User> &fetchNode(const std::string&, const std::string&);
+    ListNode<User> *fetchNode(const std::string&, const std::string&);
 
     void fetchNode();
 

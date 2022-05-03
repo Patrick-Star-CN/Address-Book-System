@@ -12,8 +12,6 @@ class ListNode {
 public:
     ListNode();
 
-    explicit ListNode(T data);
-
     T getData() const;
 
     T &getData();
@@ -88,10 +86,7 @@ std::ostream &operator<<(std::ostream &out, const ListNode<T> &right) {
 }
 
 template<typename T>
-ListNode<T>::ListNode(): next(nullptr), prior(nullptr) {}
-
-template<typename T>
-ListNode<T>::ListNode(T data): next(nullptr), prior(nullptr), data(data) {}
+ListNode<T>::ListNode(): next(nullptr), prior(nullptr){}
 
 template<typename T>
 T &ListNode<T>::getData() {

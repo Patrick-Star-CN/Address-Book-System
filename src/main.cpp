@@ -34,7 +34,12 @@ int main() {
                         std::cout << "请输入想查询用户的姓名：";
                         std::string name;
                         std::cin >> name;
-                        std::cout << list.fetchNode(name, "name");
+                        auto user = list.fetchNode(name, "name");
+                        if(user) {
+                            std::cout << user;
+                        } else {
+                            std::cout << "该用户不存在" << std::endl;
+                        }
                         break;
                     }
                     case 2: {
@@ -42,7 +47,12 @@ int main() {
                         std::cout << "请输入想查询用户的电话：";
                         std::string phoneNum;
                         std::cin >> phoneNum;
-                        std::cout << list.fetchNode(phoneNum, "phoneNum");
+                        auto user = list.fetchNode(phoneNum, "phoneNum");
+                        if(user) {
+                            std::cout << user;
+                        } else {
+                            std::cout << "该用户不存在" << std::endl;
+                        }
                         break;
                     }
                     case 3: {
@@ -85,7 +95,6 @@ int main() {
                         std::cin >> name;
                         list.changeNode(name, "name");
                         std::cout << "----------------------------------------" << std::endl;
-                        list.display();
                         file.change(list);
                         break;
                     }
@@ -96,7 +105,6 @@ int main() {
                         std::cin >> phoneNum;
                         std::cout << "----------------------------------------" << std::endl;
                         list.changeNode(phoneNum, "phoneNum");
-                        list.display();
                         file.change(list);
                         break;
                     }
@@ -121,8 +129,6 @@ int main() {
                         std::string name;
                         std::cin >> name;
                         list.delNode(name, "name");
-                        std::cout << "----------------------------------------" << std::endl;
-                        list.display();
                         file.change(list);
                         break;
                     }

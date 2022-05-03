@@ -5,16 +5,16 @@
 
 #include "../include/userList.h"
 
-static ListNode<User> empty(User("empty"));  // 空对象
+  // 空对象
 
-ListNode<User> &UserList::fetchNode(const std::string& context, const std::string& type) {
+ListNode<User> *UserList::fetchNode(const std::string& context, const std::string& type) {
     // 查询功能,type控制查询的方法，支持用姓名、手机号、类型查询
     ListNode<User> *ptr = head;
 
     if(type == "phoneNum") {
         while(ptr) {
             if(ptr->getData().getPhoneNum() == context) {
-                return *ptr;
+                return ptr;
             }
             ptr = ptr->getNext();
         }
@@ -40,12 +40,14 @@ ListNode<User> &UserList::fetchNode(const std::string& context, const std::strin
             int val;
             std::cin >> val;
             if(val <= num) {
-                return *ptr_[val - 1];
+                return ptr_[val - 1];
             } else {
-                return *ptr_[num - 1];
+                return ptr_[num - 1];
             }
+        } else if(num == 1) {
+            return ptr_[0];
         } else {
-            return *ptr_[0];
+            return nullptr;
         }
     } else if(type == "type") {
         while(ptr) {
@@ -55,14 +57,14 @@ ListNode<User> &UserList::fetchNode(const std::string& context, const std::strin
             ptr = ptr->getNext();
         }
     }
-    return empty;
+    return nullptr;
 }
 
 void UserList::delNode(const std::string& context, const std::string& type) {
     // 删除功能，type控制查询的方法，支持用姓名与手机号查询
-    ListNode<User> *ptr = &fetchNode(context, type);
-    if(ptr->getData().getPhoneNum() == "empty") {
-        std::cout << "不存在该用户" << std::endl;std::cout << "不存在该用户" << std::endl;
+    ListNode<User> *ptr = fetchNode(context, type);
+    if(!ptr) {
+        std::cout << "不存在该用户" << std::endl;
         return;
     }
     ListNode<User> *ptr_ = ptr->getPrior();
@@ -87,13 +89,14 @@ void UserList::delNode(const std::string& context, const std::string& type) {
     -- size;
     delete ptr;
     ptr = nullptr;
+    std::cout << "----------------------------------------" << std::endl;
+    display();
 }
 
 void UserList::changeNode(std::string context, const std::string& type) {
     // 修改功能，type控制查询的方法，支持用姓名与手机号修改
-    auto &user = type == "name"? fetchNode(context, "name"): fetchNode(context, "phoneNum");
-    if(type == "name" && user.getData().getPhoneNum() != empty.getData().getPhoneNum()
-       || type == "phoneNum" && user.getData().getPhoneNum() != empty.getData().getPhoneNum()) {
+    auto user = type == "name"? fetchNode(context, "name"): fetchNode(context, "phoneNum");
+    if(user) {
         std::cout << "请输入需要改变的数据名编号" << std::endl
                   << "1: 姓名" << std::endl
                   << "2: 性别" << std::endl
@@ -112,11 +115,12 @@ void UserList::changeNode(std::string context, const std::string& type) {
                 std::cout << "请输入新的姓名:";
                 std::cin >> temp;
                 if(type == "name") {
-                    user.getData().setName(temp);
+                    user->getData().setName(temp);
                     context = temp;
                 } else if(type == "phoneNum") {
-                    user.getData().setName(temp);
+                    user->getData().setName(temp);
                 }
+                display();
                 break;
             }
             case 2: {
@@ -124,15 +128,16 @@ void UserList::changeNode(std::string context, const std::string& type) {
                 while(std::cin >> temp) {
                     if (temp == "男" || temp == "女" || temp == "male" || temp == "female") {
                         if(type == "name") {
-                            user.getData().setSex(temp);
+                            user->getData().setSex(temp);
                         } else if(type == "phoneNum") {
-                            user.getData().setSex(temp);
+                            user->getData().setSex(temp);
                         }
                         break;
                     } else {
                         std::cout << "输入的性别格式非法，请重新输入:";
                     }
                 }
+                display();
                 break;
             }
             case 3: {
@@ -140,9 +145,9 @@ void UserList::changeNode(std::string context, const std::string& type) {
                 while(std::cin >> temp) {
                     if (regex_match(temp, std::regex("[0-9]{11}"))) {
                         if(type == "name") {
-                            user.getData().setPhoneNum(temp);
+                            user->getData().setPhoneNum(temp);
                         } else if(type == "phoneNum") {
-                            user.getData().setPhoneNum(temp);
+                            user->getData().setPhoneNum(temp);
                             context = temp;
                         }
                         break;
@@ -150,6 +155,7 @@ void UserList::changeNode(std::string context, const std::string& type) {
                         std::cout << "输入的电话格式非法，请重新输入:";
                     }
                 }
+                display();
                 break;
             }
             case 4: {
@@ -157,10 +163,11 @@ void UserList::changeNode(std::string context, const std::string& type) {
                 Address address;
                 std::cin >> address;
                 if(type == "name") {
-                    user.getData().setAddress(address);
+                    user->getData().setAddress(address);
                 } else if(type == "phoneNum") {
-                    user.getData().setAddress(address);
+                    user->getData().setAddress(address);
                 }
+                display();
                 break;
             }
             case 5: {
@@ -168,22 +175,23 @@ void UserList::changeNode(std::string context, const std::string& type) {
                 while (std::cin >> temp) {
                     if (regex_match(temp, std::regex("^[0-9]{6}"))) {
                         if(type == "name") {
-                            user.getData().setPostalCode(temp);
+                            user->getData().setPostalCode(temp);
                         } else if(type == "phoneNum") {
-                            user.getData().setPostalCode(temp);
+                            user->getData().setPostalCode(temp);
                         }
                         break;
                     } else if(temp == "0") {
                         if(type == "name") {
-                            user.getData().setPostalCode("");
+                            user->getData().setPostalCode("");
                         } else if(type == "phoneNum") {
-                            user.getData().setPostalCode("");
+                            user->getData().setPostalCode("");
                         }
                         break;
                     } else {
                         std::cout << "输入的邮政编码格式非法，请重新输入:";
                     }
                 }
+                display();
                 break;
             }
             case 6: {
@@ -191,22 +199,23 @@ void UserList::changeNode(std::string context, const std::string& type) {
                 while (std::cin >> temp) {
                     if (regex_match(temp, std::regex(R"(^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$)"))) {
                         if(type == "name") {
-                            user.getData().setEMail(temp);
+                            user->getData().setEMail(temp);
                         } else if(type == "phoneNum") {
-                            user.getData().setEMail(temp);
+                            user->getData().setEMail(temp);
                         }
                         break;
                     } else if (temp == "0") {
                         if(type == "name") {
-                            user.getData().setEMail("");
+                            user->getData().setEMail("");
                         } else if(type == "phoneNum") {
-                            user.getData().setEMail("");
+                            user->getData().setEMail("");
                         }
                         break;
                     } else {
                         std::cout << "输入的邮箱地址格式非法，请重新输入:";
                     }
                 }
+                display();
                 break;
             }
             case 7: {
@@ -214,32 +223,34 @@ void UserList::changeNode(std::string context, const std::string& type) {
                 while (std::cin >> temp) {
                     if (regex_match(temp, std::regex("[1-9][0-9]{4,}"))) {
                         if(type == "name") {
-                            user.getData().setQqNum(temp);
+                            user->getData().setQqNum(temp);
                         } else if(type == "phoneNum") {
-                            user.getData().setQqNum(temp);
+                            user->getData().setQqNum(temp);
                         }
                         break;
                     } else if (temp == "0") {
                         if(type == "name") {
-                            user.getData().setQqNum("");
+                            user->getData().setQqNum("");
                         } else if(type == "phoneNum") {
-                            user.getData().setQqNum("");
+                            user->getData().setQqNum("");
                         }
                         break;
                     } else {
                         std::cout << "输入的QQ号格式非法，请重新输入:";
                     }
                 }
+                display();
                 break;
             }
             case 8: {
                 std::cout << "请输入新的类型:";
                 std::cin >> temp;
                 if(type == "name") {
-                    user.getData().setType(temp);
+                    user->getData().setType(temp);
                 } else if(type == "phoneNum") {
-                    user.getData().setType(temp);
+                    user->getData().setType(temp);
                 }
+                display();
                 break;
             }
             case 0: {
@@ -278,7 +289,12 @@ void UserList::sortNode() {
         }
         case 2: {
             sort([](const ListNode<User> &left, const ListNode<User> &right) -> bool {
-                return left.getData().getSex() < right.getData().getSex();
+                if((left.getData().getSex() == "女" || left.getData().getSex() == "female")
+                && (right.getData().getSex() == "男" || right.getData().getSex() == "male")) {
+                    return true;
+                } else {
+                    return left.getData().getSex() < right.getData().getSex();
+                }
             });
             display();
             break;
@@ -388,11 +404,11 @@ void UserList::swap(ListNode<User> *left, ListNode<User> *right) {
         left->setPrior(prior);
         prior = nullptr;
 
-        if(left->getNext()) {
-            left->getNext()->setPrior(right);
-        }
+        left->getNext()->setPrior(right);
         ListNode<User> *next = right->getNext();
-        next->setPrior(left);
+        if(next) {
+            next->setPrior(left);
+        }
         right->setNext(left->getNext());
         left->setNext(next);
         next = nullptr;
