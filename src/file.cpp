@@ -13,8 +13,10 @@ void File::init(UserList &userList) {
     std::ifstream in;
     in.open(path + fileType, std::ios::in);
     if(!in.is_open()) {
-        std::cout << "文件打开失败" << std::endl;
-        return;
+        std::ofstream out;
+        out.open(path + fileType, std::ios::out | std::ios::app);
+        out.close();
+        in.open(path + fileType, std::ios::in);
     }
     while(!in.eof()) {
         userList.addNode(in);
