@@ -292,6 +292,9 @@ void UserList::sortNode() {
                 if((left.getData().getSex() == "Å®" || left.getData().getSex() == "female")
                 && (right.getData().getSex() == "ÄÐ" || right.getData().getSex() == "male")) {
                     return true;
+                } else if((left.getData().getSex() == "ÄÐ" || left.getData().getSex() == "male")
+                     && (right.getData().getSex() == "Å®" || right.getData().getSex() == "female")) {
+                    return false;
                 } else {
                     return left.getData().getSex() < right.getData().getSex();
                 }
