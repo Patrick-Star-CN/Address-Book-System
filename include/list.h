@@ -41,19 +41,16 @@ T &List<T>::addNode(std::istream &in) {
     newNode->setData(newData);
     newNode->setNext(nullptr);
     newNode->setPrior(tail);
-
     if(tail) {
         // 尾节点不为空时挂上新节点
         tail->setNext(newNode);
     }
     tail = newNode; // 更新尾节点
-
     if(head == nullptr) {
         // 头节点为空时初始化头节点
         head = newNode;
         head->setPrior(nullptr);
     }
-
     ++ size;
     return newNode->getData();
 }

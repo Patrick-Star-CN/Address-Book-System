@@ -57,7 +57,7 @@ private:
     std::string name;        // 姓名
     std::string sex;         // 性别
     std::string phoneNum;    // 手机号
-    Address address;     // 地址
+    Address address;         // 地址
     std::string postalCode;  // 邮政编码
     std::string eMail;       // 邮箱
     std::string QQNum;       // QQ号
