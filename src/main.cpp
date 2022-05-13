@@ -42,7 +42,7 @@ int main() {
                             std::cin >> name;
                             auto user = list.fetchNode(name, "name");
                             if (user) {
-                                std::cout << user;
+                                std::cout << *user;
                             } else {
                                 std::cout << "该用户不存在" << std::endl;
                             }

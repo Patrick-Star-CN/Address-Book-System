@@ -90,7 +90,7 @@ std::istream &operator>>(std::istream &in, User &right) {
             right.setSex(sex);
             break;
         } else {
-            std::cout << "输入的性别格式非法，请重新输入：";
+            std::cout << "输入的性别格式非法，应该为'男'或'女'或'male'或'female'，请重新输入：";
         }
     }
 
@@ -99,11 +99,11 @@ std::istream &operator>>(std::istream &in, User &right) {
         std::cout << "请输入" << right.name << "的电话号码：";
     }
     while (in >> phoneNum) {
-        if (regex_match(phoneNum, std::regex("[0-9]{11}"))) {
+        if (regex_match(phoneNum, std::regex("[1-9][0-9]{10}"))) {
             right.setPhoneNum(phoneNum);
             break;
         } else {
-            std::cout << "输入的电话号码格式非法，请重新输入：";
+            std::cout << "输入的电话号码格式非法，应该为11位非0开头的纯数字，请重新输入：";
         }
     }
 
@@ -124,7 +124,7 @@ std::istream &operator>>(std::istream &in, User &right) {
             right.setPostalCode("");
             break;
         } else {
-            std::cout << "输入的邮政编码格式非法，请重新输入：";
+            std::cout << "输入的邮政编码格式非法，应该为6为纯数字，请重新输入：";
         }
     }
 
@@ -140,7 +140,7 @@ std::istream &operator>>(std::istream &in, User &right) {
             right.setEMail("");
             break;
         } else {
-            std::cout << "输入的邮箱地址格式非法，请重新输入：";
+            std::cout << "输入的邮箱地址格式非法，正确的样例为：123456@zjut.edu.cn，请重新输入：";
         }
     }
 
@@ -156,7 +156,7 @@ std::istream &operator>>(std::istream &in, User &right) {
             right.setQqNum("");
             break;
         } else {
-            std::cout << "输入的QQ号格式非法，请重新输入：";
+            std::cout << "输入的QQ号格式非法，应该为至少五位且首位非0的纯数字，请重新输入：";
         }
     }
 
