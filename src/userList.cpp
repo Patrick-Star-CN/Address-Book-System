@@ -46,8 +46,6 @@ ListNode<User> *UserList::fetchNode(const std::string& context, const std::strin
             }
         } else if(num == 1) {
             return ptr_[0];
-        } else {
-            return nullptr;
         }
     } else if(type == "type") {
         while(ptr) {
@@ -68,7 +66,6 @@ void UserList::delNode(const std::string& context, const std::string& type) {
         return;
     }
     ListNode<User> *ptr_ = ptr->getPrior();
-
     if(ptr_ && ptr->getNext()) {
         ptr_->setNext(ptr->getNext());
         ptr->getNext()->setPrior(ptr_);
@@ -85,7 +82,6 @@ void UserList::delNode(const std::string& context, const std::string& type) {
         tail = nullptr;
         head = nullptr;
     }
-
     -- size;
     delete ptr;
     ptr = nullptr;
@@ -136,7 +132,7 @@ void UserList::changeNode(std::string context, const std::string& type) {
                             }
                             break;
                         } else {
-                            std::cout << "输入的性别格式非法，请重新输入:";
+                            std::cout << "输入的性别格式非法，应该为'男'或'女'或'male'或'female'，请重新输入：";
                         }
                     }
                     display();
@@ -155,7 +151,7 @@ void UserList::changeNode(std::string context, const std::string& type) {
                             }
                             break;
                         } else {
-                            std::cout << "输入的电话格式非法，请重新输入:";
+                            std::cout << "输入的电话号码格式非法，应该为11位非0开头的纯数字，请重新输入：";
                         }
                     }
                     display();
@@ -193,7 +189,7 @@ void UserList::changeNode(std::string context, const std::string& type) {
                             }
                             break;
                         } else {
-                            std::cout << "输入的邮政编码格式非法，请重新输入:";
+                            std::cout << "输入的邮政编码格式非法，应该为6为纯数字，请重新输入：";
                         }
                     }
                     display();
@@ -218,7 +214,7 @@ void UserList::changeNode(std::string context, const std::string& type) {
                             }
                             break;
                         } else {
-                            std::cout << "输入的邮箱地址格式非法，请重新输入:";
+                            std::cout << "输入的邮箱地址格式非法，正确的样例为：123456@zjut.edu.cn，请重新输入：";
                         }
                     }
                     display();
@@ -243,7 +239,7 @@ void UserList::changeNode(std::string context, const std::string& type) {
                             }
                             break;
                         } else {
-                            std::cout << "输入的QQ号格式非法，请重新输入:";
+                            std::cout << "输入的QQ号格式非法，应该为至少五位且首位非0的纯数字，请重新输入：";
                         }
                     }
                     display();
@@ -437,8 +433,7 @@ void UserList::fetchNode() {
         if (address.getTown().empty()) {
             if ((address.getProvince().empty() || address.getProvince() == ptr->getData().getAddress().getProvince())
                 && (address.getCity().empty() || address.getCity() == ptr->getData().getAddress().getCity())
-                &&
-                (address.getDistrict().empty() || address.getDistrict() == ptr->getData().getAddress().getDistrict())) {
+                && (address.getDistrict().empty() || address.getDistrict() == ptr->getData().getAddress().getDistrict())) {
                 std::cout << *ptr;
                 flag = false;
             }
