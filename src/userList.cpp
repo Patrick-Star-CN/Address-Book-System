@@ -352,28 +352,19 @@ void UserList::sort(bool (*cmp)(const ListNode<User>&, const ListNode<User>&)) {
     ListNode<User> *ptr = head;
     ListNode<User> *ptr_ = nullptr;
     ListNode<User> *ptr_tmp = nullptr;
-
     for(int i = 0; i < getSize() - 1; i ++) {
         ptr_ = ptr->getNext();
         ptr_tmp = ptr;
-
         for(int j = i + 1; j < getSize(); j ++) {
             if(cmp(*ptr_, *ptr_tmp)) {
                 ptr_tmp = ptr_;
             }
             ptr_ = ptr_->getNext();
         }
-
         if(ptr != ptr_tmp) {
             swap(ptr, ptr_tmp);
             ptr = ptr_tmp;
-            /* 简易的实现方法
-            User tmp = ptr->getData();
-            ptr->setData(ptr_tmp->getData());
-            ptr_tmp->setData(tmp);
-            */
         }
-
         ptr = ptr->getNext();
     }
 }

@@ -24,7 +24,6 @@ int main() {
             case 1: {
                 Admin admin("../data/admin", ".txt");
                 if(!admin.login()) {
-                    flagMain = false;
                     flagMain_ = false;
                     break;
                 }
@@ -34,7 +33,6 @@ int main() {
                         case 1: {
                             std::cout << "----------------------------------------" << std::endl;
                             file.add(list.addNode(std::cin));
-                            flagMain = false;
                             break;
                         }
                         case 2: {
@@ -97,13 +95,11 @@ int main() {
                                     }
                                 }
                             }
-                            flagMain = false;
                             break;
                         }
                         case 3: {
                             std::cout << "----------------------------------------" << std::endl;
                             list.display();
-                            flagMain = false;
                             break;
                         }
                         case 4: {
@@ -145,7 +141,6 @@ int main() {
                                     }
                                 }
                             }
-                            flagMain = false;
                             break;
                         }
                         case 5: {
@@ -176,7 +171,6 @@ int main() {
                                         std::cin >> phoneNum;
                                         std::cout << "----------------------------------------" << std::endl;
                                         list.delNode(phoneNum, "phoneNum");
-                                        list.display();
                                         file.change(list);
                                         flag = false;
                                         break;
@@ -187,7 +181,6 @@ int main() {
                                     }
                                 }
                             }
-                            flagMain = false;
                             break;
                         }
                         case 6: {
@@ -199,7 +192,6 @@ int main() {
                             std::cout << "----------------------------------------" << std::endl;
                             list.sortNode();
                             file.change(list);
-                            flagMain = false;
                             break;
                         }
                         case 0: {
@@ -230,6 +222,7 @@ int main() {
                           << "2: 根据电话进行精确查询" << std::endl
                           << "3: 根据地址进行模糊查询" << std::endl
                           << "4: 根据类别查询" << std::endl
+                          << "5: 输出所有用户信息" << std::endl
                           << "0: 退出系统并保存数据" << std::endl;
                 std::cout << ">";
                 int typeNum_;
@@ -247,7 +240,6 @@ int main() {
                             } else {
                                 std::cout << "该用户不存在" << std::endl;
                             }
-                            flag = false;
                             break;
                         }
                         case 2: {
@@ -261,13 +253,11 @@ int main() {
                             } else {
                                 std::cout << "该用户不存在" << std::endl;
                             }
-                            flag = false;
                             break;
                         }
                         case 3: {
                             std::cout << "----------------------------------------" << std::endl;
                             list.fetchNode();
-                            flag = false;
                             break;
                         }
                         case 4: {
@@ -276,7 +266,11 @@ int main() {
                             std::string type;
                             std::cin >> type;
                             list.fetchNode(type, "type");
-                            flag = false;
+                            break;
+                        }
+                        case 5: {
+                            std::cout << "----------------------------------------" << std::endl;
+                            list.display();
                             break;
                         }
                         case 0: {
@@ -288,6 +282,17 @@ int main() {
                             std::cout << "输入有误，请重新输入\n>";
                             break;
                         }
+                    }
+                    if(typeNum_) {
+                        std::cout << "----------------------------------------" << std::endl;
+                        std::cout << "请输入对应功能前的编号来查询信息" << std::endl
+                                  << "1: 根据姓名进行精确查询" << std::endl
+                                  << "2: 根据电话进行精确查询" << std::endl
+                                  << "3: 根据地址进行模糊查询" << std::endl
+                                  << "4: 根据类别查询" << std::endl
+                                  << "5: 输出所有用户信息" << std::endl
+                                  << "0: 退出系统并保存数据" << std::endl;
+                        std::cout << ">";
                     }
                 }
                 break;
